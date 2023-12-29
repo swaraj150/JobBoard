@@ -20,9 +20,11 @@ router.post("/create",fetchUser,async(req,res)=>{
             employer: req.user.id,
             title: req.body.title,
             description: req.body.description,
+            requirements:req.body.requirements,
             skills_required: req.body.skills_required,
-            openings: req.body.openings
-
+            openings: req.body.openings,
+            income:req.body.income,
+            location:req.body.location
         })
         res.status(200).json({success:true,msg:"post created!"})
         

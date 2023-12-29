@@ -13,6 +13,10 @@ const JobSchema=new mongoose.Schema({
         type:String,
         required:true
     },
+    requirements:{
+        type:String,
+        required:true
+    },
     skills_required:{
         type:[String],
         required:true
@@ -20,7 +24,16 @@ const JobSchema=new mongoose.Schema({
     openings:{
         type:Number,
         required:true
+    },
+    income:{
+        type:String,
+        required:true
+    },
+    location:{
+        type:String,
+        required:true
     }
+   
 });
 const Job=mongoose.model("Job",JobSchema);
 module.exports=Job;
