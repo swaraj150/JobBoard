@@ -1,0 +1,129 @@
+import { createContext, useContext, useState } from "react";
+import axios from "axios"
+
+const JobContext = createContext();
+export const JobProvider = ({ children }) => {
+  const [response, setResponse] = useState(null);
+  const createJob = async (data) => {
+    try {
+      
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem("auth-token")
+      }
+      const res = await axios.post("http://localhost:80/api/Job/create", data, {
+        headers: headers
+      });
+      setResponse(res.data)
+      console.log("Job creation success", res.data);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setResponse(error.response.data);
+        console.log("Job creation failed", error.response.data);
+        console.error("Job creation failed with status code", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  }
+  const [jobList, setJobList] = useState(null);
+  const getAllJob = async () => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        
+      }
+      const res = await axios.get("http://localhost:80/api/job/getallpost", {
+        headers: headers
+      });
+      setJobList({response:res.data,success:true})
+      console.log("Job retrieval success", res.data);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setJobList({error:error.response.data,success:false});
+        console.log("Job retrieval failed", {error:error.response.data,success:false});
+        console.error("Job retrieval failed with status code", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  }
+  const [job, setJob] = useState(null);
+  const getJob = async (data) => {
+    try {
+
+      
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem("auth-token")
+      }
+      const res = await axios.get(`http://localhost:80/api/Job/getJob`,data, {
+        headers: headers
+      });
+      setJob({response:res.data,success:true})
+      console.log("Job retrieval success", res.data);
+    } catch (error) {
+      if (error.response) {
+        
+        setJob({response:error.response.data,success:false});
+        console.log("Job retrieval failed", error.response.data);
+        console.error("Job retrieval failed with status code", error.response.status);
+      } else if (error.request) {
+        console.error("No response received from the server");
+      } else {
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  }
+  const [myuserJob, setMyUserJob] = useState(null);
+  const getMyUserJob = async () => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem("auth-token")
+      }
+      const res = await axios.get("http://localhost:80/api/Job/getuserJob", {
+        headers: headers
+      });
+      setMyUserJob({response:res.data,success:true})
+      console.log("Job retrieval success", res.data);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setMyUserJob({error:error.response.data,success:false});
+        console.log("Job retrieval failed", {error:error.response.data,success:false});
+        console.error("Job retrieval failed with status code", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  }
+  return (
+    <JobContext.Provider value={{ response, createJob, jobList, getAllJob, job, getJob,myuserJob,getMyUserJob }}>
+      {children}
+    </JobContext.Provider>
+  );
+};
+export const useJob = () => {
+  return useContext(JobContext);
+};
+
+
+
