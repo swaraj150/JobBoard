@@ -11,7 +11,7 @@ export default function Navbar(props) {
   const [navType, setNavType] = useState("JOBSEEKER");
   const location = useLocation();
   const navigate = useNavigate();
-  const { userJobSeeker, getUserJobSeeker } = useAuth();
+  const { userJobSeeker, getUserJobSeeker, getUserEmployer } = useAuth();
   const handleNavTypeChange = (newNavType) => {
     setNavType(newNavType);
     navigate('/');
@@ -68,6 +68,23 @@ export default function Navbar(props) {
                 </Link>
               </li>
             )}
+
+            {navType == "EMPLOYER" && (
+
+              <li className="nav-item">
+                <Link
+                  className={`nav-link ${location.pathname==="/employer/create"?"active":""}`}
+                  to={"/employer/create"}
+                >
+                  Create A Post
+                </Link>
+              </li>
+
+            )
+
+
+
+            }
           </ul>
           <ul className="navbar-nav">
             {navType === 'JOBSEEKER' && (
@@ -96,7 +113,7 @@ export default function Navbar(props) {
               <Link
                 className={`nav-link ${location.pathname === "/user" ? "active" : ""}`}
                 onClick={() => {
-                  getUserJobSeeker();
+                  navType === 'JOBSEEKER' ? getUserJobSeeker() : getUserEmployer();
                 }}
               >
                 <FontAwesomeIcon
@@ -110,7 +127,7 @@ export default function Navbar(props) {
               </Link>
             </li>
           </ul>
-          {navType === 'JOBSEEKER' ?<MyModal />:<MyModalEmployer/>}
+          {navType === 'JOBSEEKER' ? <MyModal /> : <MyModalEmployer />}
         </div>
       </div>
     </nav>

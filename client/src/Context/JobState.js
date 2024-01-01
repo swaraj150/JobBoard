@@ -6,7 +6,6 @@ export const JobProvider = ({ children }) => {
   const [response, setResponse] = useState(null);
   const createJob = async (data) => {
     try {
-
       const headers = {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
