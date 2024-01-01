@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const JobSeeker = require("../models/JobSeeker")
+const Job = require("../models/Job")
 const { body, validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const fetchUser=require("../middleware/fetchUser")
+const fetchUser = require("../middleware/fetchUser");
 
 const JWT_SECRET = "sWARAJ$aNDHALE@20";
 const expiresIn = "3h";
@@ -27,7 +28,8 @@ router.post("/register", [body("email", "Enter a valid email").isEmail()], async
             email: req.body.email,
             password: secPass,
             skills: req.body.skills,
-            education: req.body.education
+            education: req.body.education,
+            applications: []
 
 
         })
@@ -88,8 +90,86 @@ router.get("/getuser", fetchUser, async (req, res) => {
     }
 });
 
+router.put("/add-application", fetchUser, async (req, res) => {
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).send({ message: "User not authenticated", success:false });
+        }
+        const { jobId } = req.body;
+        if (!jobId) {
+            return res.status(401).send({ message: "no application data found", success:false });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
+
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found" , success:false});
+        }
+
+        // Assuming applications is a Set
+        const applications = new Set(existingUser.applications);
+
+        applications.add(jobId);
+
+        // Update user document with the new applications set
+        await JobSeeker.findByIdAndUpdate(req.user.id, { $set: { applications: Array.from(applications) } }, { new: true });
+
+        res.send({ message: "applications updated", success:true})
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server error")
+    }
+})
 
 
+router.get("/getapplication", fetchUser, async (req, res) => {
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).send({ message: "User not authenticated" });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
 
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found" });
+        }
+        console.log("entered in getApplication")
+        const { jobId } = req.query;
+
+        if (!jobId) {
+            return res.status(400).json({ success: false, error: "Job ID not provided" });
+        }
+
+        const applications = existingUser.applications;
+        if (applications.length === 0 ||!applications.includes(jobId)) {
+            return res.status(404).json({ success: false, error: "No application found" });
+        }
+        console.log(applications);
+        const job = await Job.findById(jobId);
+
+        res.json({ success: true, application: job });
+
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server error");
+    }
+});
+
+router.get("/applications",fetchUser,async(req,res)=>{
+    if (!req.user || !req.user.id) {
+        return res.status(401).send({ message: "User not authenticated" });
+    }
+    const existingUser = await JobSeeker.findById(req.user.id);
+    if (!existingUser) {
+        return res.status(404).send({ message: "User not found" });
+    }
+    const applications = existingUser.applications;
+    const detailedApplications = await Promise.all(applications.map(async (applicationId) => {
+        const application = await Job.findById(applicationId); // Assuming your job model is named Job
+        return application;
+    }));
+
+    res.json({ success: true, applications: detailedApplications });
+});
 
 module.exports = router;

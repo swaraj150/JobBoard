@@ -85,6 +85,26 @@ router.get("/getuser", fetchUser, async (req, res) => {
         res.status(500).send("Internal Server error")
     }
 });
+router.get("/getuser/:id", fetchUser, async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: "parameter missing" });
+        }
+        // console.log(id)
+        console.log("entered in fetchEmployer")
+        const user = await Employer.findById(id);
+        if (!user) {
+            return res.status(404).json({ success: false, error: "No employer found" });
+        }
+        console.log(user._id)
+        res.json({ success: true, user});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, error: "Internal server error" });
+    }
+});
 
 
 

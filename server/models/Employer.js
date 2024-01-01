@@ -8,7 +8,8 @@ const EmployerSchema=new mongoose.Schema({
     industry:{
         type:String,
         required:true
-    }
+    },
+    
 })
 
 const Employer=User.discriminator('Employer',EmployerSchema)

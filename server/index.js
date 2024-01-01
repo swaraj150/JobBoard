@@ -8,6 +8,9 @@ app.use(express.json());
 app.use("/api/employer",require("./routes/employerModelRoutes"));
 app.use("/api/job",require("./routes/jobRoutes"));
 app.use("/api/jobseeker",require("./routes/jobSeekerRoutes"));
+app.use("/api/utility",require("./routes/utilityRoutes"));
+
+
 app.listen(port,()=>{
     console.log(`Bank app listening on port at http://localhost:80`);
 });

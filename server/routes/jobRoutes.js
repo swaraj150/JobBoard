@@ -53,6 +53,24 @@ router.get(`/getpost`, fetchUser, async (req, res) => {
         res.status(500).json({ success: false, error: "Internal server error" });
     }
 });
+router.get("/getpost/:id", fetchUser, async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: "parameter missing" });
+        }
+        console.log(id)
+        const post = await Job.findById(id);
+        if (!post) {
+            return res.status(404).json({ success: false, error: "No post found" });
+        }
+        res.json({ success: true, post});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ success: false, error: "Internal server error" });
+    }
+});
 router.get("/getallpost",async(req,res)=>{
     try{
         const post=await Job.find();
