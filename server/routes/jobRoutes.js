@@ -60,6 +60,14 @@ router.get("/getpost/:id", fetchUser, async (req, res) => {
         if (!id) {
             return res.status(400).json({ success: false, error: "parameter missing" });
         }
+        if (!req.user || !req.user.id) {
+            return res.status(401).send({ message: "User not authenticated" });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found",success:false });
+        }
+
         console.log(id)
         const post = await Job.findById(id);
         if (!post) {

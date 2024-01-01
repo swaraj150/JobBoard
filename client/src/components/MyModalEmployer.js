@@ -2,7 +2,8 @@
 import { useAuth } from "../Context/AuthState";
 
 export default function MyModalEmployer() {
-  const { user } = useAuth();
+  
+  const { userEmployer } = useAuth();
 //   let navigate = useNavigate();
     const logout=()=>{
         console.log("Logging out...");
@@ -10,7 +11,7 @@ export default function MyModalEmployer() {
         window.location.href = "/"; 
         // navigate("/")
     }
-  if (user !== null) {
+  if (userEmployer !== null) {
     return (
       <div className="my-3">
         <div
@@ -35,7 +36,7 @@ export default function MyModalEmployer() {
               </div>
               <div className="modal-body">
                 <h4 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
-                  Welcome, {user.name}
+                  Welcome, {userEmployer.name}
                 </h4>
               </div>
               <div className="modal-footer">

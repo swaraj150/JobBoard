@@ -1,7 +1,25 @@
 const mongoose=require("mongoose")
-const User=require("./User");
+// const User=require("./User");
 const Job = require("./Job");
 const JobSeekerSchema=new mongoose.Schema({
+    name:{
+        type:String,
+        required:true
+    },
+    username:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    email:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    password:{
+        type:String,
+        required:true
+    },
     skills:{
         type:[String],
         required:true
@@ -18,6 +36,6 @@ const JobSeekerSchema=new mongoose.Schema({
     ]
 })
 // JobSeekerSchema.index({ "applications": 1 });
-const JobSeeker=User.discriminator('JobSeeker',JobSeekerSchema)
+const JobSeeker=mongoose.model('JobSeeker',JobSeekerSchema)
 
 module.exports=JobSeeker;

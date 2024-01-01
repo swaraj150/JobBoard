@@ -157,11 +157,11 @@ router.get("/getapplication", fetchUser, async (req, res) => {
 
 router.get("/applications",fetchUser,async(req,res)=>{
     if (!req.user || !req.user.id) {
-        return res.status(401).send({ message: "User not authenticated" });
+        return res.status(401).send({ message: "User not authenticated",success:false });
     }
     const existingUser = await JobSeeker.findById(req.user.id);
     if (!existingUser) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: "User not found",success:false });
     }
     const applications = existingUser.applications;
     const detailedApplications = await Promise.all(applications.map(async (applicationId) => {

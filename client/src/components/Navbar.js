@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import MyModal from './MyModal';
+import MyModalEmployer from './MyModalEmployer';
 import { useAuth } from '../Context/AuthState';
 
 export default function Navbar(props) {
@@ -109,7 +110,7 @@ export default function Navbar(props) {
               </Link>
             </li>
           </ul>
-          <MyModal />
+          {navType === 'JOBSEEKER' ?<MyModal />:<MyModalEmployer/>}
         </div>
       </div>
     </nav>
