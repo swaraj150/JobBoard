@@ -4,12 +4,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import MyModal from './MyModal';
+import { useAuth } from '../Context/AuthState';
 
 export default function Navbar(props) {
   const [navType, setNavType] = useState("JOBSEEKER");
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { userJobSeeker, getUserJobSeeker } = useAuth();
   const handleNavTypeChange = (newNavType) => {
     setNavType(newNavType);
     navigate('/');
@@ -18,7 +19,7 @@ export default function Navbar(props) {
   const handleLogout = () => {
     console.log("Logging out...");
     localStorage.removeItem("auth-token");
-    window.location.href = "/";
+    window.location.href = "/jobseeker";
   };
 
   return (
@@ -42,16 +43,16 @@ export default function Navbar(props) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ?( location.pathname === "/jobseeker" ? "active" : ""):( location.pathname === "/employer" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER'?"/jobseeker":"/employer"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker" ? "active" : "") : (location.pathname === "/employer" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "/jobseeker" : "/employer"}
               >
                 Home
               </Link>
             </li>
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ?( location.pathname === "/jobseeker/register" ? "active" : ""):( location.pathname === "/employer/register" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER'?"/jobseeker/register":"/employer/register"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "/jobseeker/register" : "/employer/register"}
               >
                 Register
               </Link>
@@ -59,8 +60,8 @@ export default function Navbar(props) {
             {!localStorage.getItem("auth-token") && (
               <li className="nav-item">
                 <Link
-                   className={`nav-link ${navType === 'JOBSEEKER' ?( location.pathname === "/jobseeker/login" ? "active" : ""):( location.pathname === "/employer/login" ? "active" : "")}`}
-                   to={navType === 'JOBSEEKER'?"/jobseeker/login":"/employer/login"}
+                  className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/login" ? "active" : "") : (location.pathname === "/employer/login" ? "active" : "")}`}
+                  to={navType === 'JOBSEEKER' ? "/jobseeker/login" : "/employer/login"}
                 >
                   Login
                 </Link>
@@ -94,7 +95,7 @@ export default function Navbar(props) {
               <Link
                 className={`nav-link ${location.pathname === "/user" ? "active" : ""}`}
                 onClick={() => {
-                  // getUser();
+                  getUserJobSeeker();
                 }}
               >
                 <FontAwesomeIcon
@@ -108,6 +109,7 @@ export default function Navbar(props) {
               </Link>
             </li>
           </ul>
+          <MyModal />
         </div>
       </div>
     </nav>

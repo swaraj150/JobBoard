@@ -10,8 +10,12 @@ import RegisterEmployer from './components/RegisterEmployer';
 import Register from './components/Register';
 import LoginEmployer from './components/LoginEmployer';
 import Login from './components/Login';
+import Job from './components/Job';
+import JobSeekerApplications from './components/JobSeekerApplications';
 function App() {
- 
+  // window.addEventListener('beforeunload', function(event) {
+  //   localStorage.clear();
+  // });
   return (
     <>
     <RegisterProvider>
@@ -28,6 +32,9 @@ function App() {
               <Route exact path="/jobseeker/register" element={<Register/>} /> 
               <Route exact path="/employer/login" element={<LoginEmployer />} /> 
               <Route exact path="/jobseeker/login" element={<Login />} /> 
+              <Route exact path="/jobseeker/job/:id" element={<Job />} />  
+              <Route exact path="/jobseeker/applications" element={<JobSeekerApplications />} />  
+
             </Routes>
           </div>
           </BrowserRouter>

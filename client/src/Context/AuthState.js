@@ -8,9 +8,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post("http://localhost:80/api/employer/login", credToCheck);
       setResponseEmployer(res.data)
-      if(res.data.success){
-        localStorage.setItem("user","EMPLOYER");
-      }
+      // if(res.data.success){
+      //   localStorage.setItem("user","EMPLOYER");
+      // }
       console.log("Authentication success", res.data);
     } catch (error) {
       if (error.response) {
@@ -33,9 +33,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await axios.post("http://localhost:80/api/jobseeker/login", credToCheck);
       setResponseJobSeeker(res.data)
-      if(res.data.success){
-        localStorage.setItem("user","JOBSEEKER");
-      }
+      // if(res.data.success){
+      //   localStorage.setItem("user","JOBSEEKER");
+      // }
       console.log("Authentication success", res.data);
     } catch (error) {
       if (error.response) {
@@ -104,9 +104,36 @@ export const AuthProvider = ({ children }) => {
       setUserJobSeeker(null);
     }
   };
+
+  const [employer,setEmployer]=useState(null);
+  const getEmployerById=async (id) =>{
+    try {
+      console.log("entered in fetchEmployer")
+      const response = await fetch(`http://localhost:80/api/employer/getuser/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('auth-token'),
+        },
+      });
+
+      if (response.status === 401) {
+        // Handle unauthorized access
+        console.error('Unauthorized access');
+        setEmployer(null);
+        return;
+      }
+      const json = await response.json();
+      setEmployer(json);
+      console.log(json)
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setEmployer(null);
+    }
+  }
   // console.log("Current response value:", response)
   return (
-    <AuthContext.Provider value={{ responseEmployer,responseJobSeeker, checkEmployerAuth,checkJobSeekerAuth,userEmployer,getUserEmployer,userJobSeeker,getUserJobSeeker }}>
+    <AuthContext.Provider value={{ responseEmployer,responseJobSeeker, checkEmployerAuth,checkJobSeekerAuth,userEmployer,getUserEmployer,userJobSeeker,getUserJobSeeker,employer,getEmployerById }}>
       {children}
     </AuthContext.Provider>
   );
