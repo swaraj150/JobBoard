@@ -30,7 +30,8 @@ router.post("/register", [body("email", "Enter a valid email").isEmail()], async
         })
         const payload = {
             user: {
-                id: user.id
+                id: user.id,
+                role:"employer"
             }
         }
         const authtoken = jwt.sign(payload, JWT_SECRET, { expiresIn });
@@ -60,7 +61,8 @@ router.post("/login",
             }
             const data = {
                 user: {
-                    id: user.id
+                    id: user.id,
+                    role:"employer"
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET, { expiresIn });
@@ -77,6 +79,9 @@ router.get("/getuser", fetchUser, async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).send({ message: "User not authenticated" });
         }
+        if(req.user.role=="jobseeker"){
+            return res.status(401).send({ message: "This is not a Jobseeker route" });
+        }
         const userid = req.user.id;
         const user = await Employer.findById(userid).select("-password");
         res.send(user);
@@ -91,6 +96,9 @@ router.get("/getuser/:id", fetchUser, async (req, res) => {
 
         if (!id) {
             return res.status(400).json({ success: false, error: "parameter missing" });
+        }
+        if(req.user.role=="jobseeker"){
+            return res.status(401).send({ message: "This is not a Jobseeker route" });
         }
         // console.log(id)
         console.log("entered in fetchEmployer")

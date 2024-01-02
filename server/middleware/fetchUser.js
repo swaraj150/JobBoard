@@ -11,7 +11,6 @@ const fetchUser = (req, res, next) => {
         if (!data.user) {
             return res.status(401).json({ error: "Invalid token: No user data found" });
         }
-        
         req.user = data.user;
         next();
     } catch (error) {

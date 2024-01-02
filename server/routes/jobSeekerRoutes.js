@@ -35,7 +35,8 @@ router.post("/register", [body("email", "Enter a valid email").isEmail()], async
         })
         const payload = {
             user: {
-                id: user.id
+                id: user.id,
+                role:"jobseeker"
             }
         }
         const authtoken = jwt.sign(payload, JWT_SECRET, { expiresIn });
@@ -65,7 +66,8 @@ router.post("/login",
             }
             const data = {
                 user: {
-                    id: user.id
+                    id: user.id,
+                    role:"jobseeker"
                 }
             }
             const authtoken = jwt.sign(data, JWT_SECRET, { expiresIn });
@@ -81,6 +83,9 @@ router.get("/getuser", fetchUser, async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).send({ message: "User not authenticated" });
         }
+        if(req.user.role=="employer"){
+            return res.status(401).send({ message: "This is not an employer route" , success:false});
+        }
         const userid = req.user.id;
         const user = await JobSeeker.findById(userid).select("-password");
         res.send(user);
@@ -94,6 +99,9 @@ router.put("/add-application", fetchUser, async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).send({ message: "User not authenticated", success:false });
+        }
+        if(req.user.role=="employer"){
+            return res.status(401).send({ message: "This is not an employer route" , success:false});
         }
         const { jobId } = req.body;
         if (!jobId) {
@@ -127,6 +135,9 @@ router.get("/getapplication", fetchUser, async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).send({ message: "User not authenticated" });
         }
+        if(req.user.role=="employer"){
+            return res.status(401).send({ message: "This is not an employer route" , success:false});
+        }
         const existingUser = await JobSeeker.findById(req.user.id);
 
         if (!existingUser) {
@@ -158,6 +169,9 @@ router.get("/getapplication", fetchUser, async (req, res) => {
 router.get("/applications",fetchUser,async(req,res)=>{
     if (!req.user || !req.user.id) {
         return res.status(401).send({ message: "User not authenticated",success:false });
+    }
+    if(req.user.role=="employer"){
+        return res.status(401).send({ message: "This is not an employer route" , success:false});
     }
     const existingUser = await JobSeeker.findById(req.user.id);
     if (!existingUser) {

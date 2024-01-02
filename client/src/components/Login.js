@@ -17,6 +17,7 @@ export default function Login() {
 
     const handlesubmit = async (e) => {
         e.preventDefault();
+        // localStorage.removeItem("auth-token");
         await checkJobSeekerAuth(cred);
         myform.current.reset();
 
@@ -29,7 +30,7 @@ export default function Login() {
             localStorage.setItem("auth-token", responseJobSeeker.authtoken);
 
 
-            showalert("Registered Succesfully","success");
+            showalert("Logged in Succesfully","success");
 
             
             // Redirect to "/quizlist" after successful login

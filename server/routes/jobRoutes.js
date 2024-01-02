@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const Employer = require("../models/Employer")
 const Job = require("../models/Job")
+const JobSeeker = require("../models/JobSeeker")
 const { body, validationResult } = require("express-validator");
 const bcrypt = require('bcryptjs');
 const fetchUser=require("../middleware/fetchUser")
@@ -10,6 +11,9 @@ router.post("/create",fetchUser,async(req,res)=>{
     try{
         if (!req.user || !req.user.id) {
             return res.status(401).send({success:false, message: "User not authenticated" });
+        }
+        if(req.user.role=="jobseeker"){
+            return res.status(401).send({ message: "This is not an jobseeker route" , success:false});
         }
         const userid = req.user.id;
         const user = await Employer.findById(userid).select("-password");
@@ -63,16 +67,22 @@ router.get("/getpost/:id", fetchUser, async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).send({ message: "User not authenticated" });
         }
+        if(req.user.role=="employer"){
+            return res.status(401).send({ message: "This is not an employer route" , success:false});
+        }
         const existingUser = await JobSeeker.findById(req.user.id);
         if (!existingUser) {
             return res.status(404).send({ message: "User not found",success:false });
         }
 
         console.log(id)
-        const post = await Job.findById(id);
-        if (!post) {
+        const job = await Job.findById(id);
+        if (!job) {
             return res.status(404).json({ success: false, error: "No post found" });
         }
+        const employerObj=await Employer.findById(job.employer);
+        console.log(employerObj)
+        const post={ ...job.toObject(), employerObj:employerObj };
         res.json({ success: true, post});
     } catch (error) {
         console.error(error.message);
@@ -94,7 +104,9 @@ router.get("/getallpost",async(req,res)=>{
 router.get("/getuserpost",fetchUser,async(req,res)=>{
     try{
         const post=await Job.find({employer:req.user.id});
-
+        if(req.user.role=="jobseeker"){
+            return res.status(401).send({ message: "This is not an jobseeker route" , success:false});
+        }
         if(!post){
             return res.status(400).json({success:false,error:"post not found"});
         }

@@ -8,9 +8,8 @@ import { faLocation } from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 
 export default function Job() {
-    const { job, getJob, apply, applySuccess, sendMail } = useJob();
-    const { employer, getEmployerById, userJobSeeker, getUserJobSeeker } = useAuth();
-    const [employerState, setEmployerState] = useState(null);
+    const { job, getJob, apply, sendMail } = useJob();
+    const {  userJobSeeker, getUserJobSeeker } = useAuth();
     const [applied, setApplied] = useState(false);
     const [applying, setApplying] = useState(false);
     const params = useParams();
@@ -89,29 +88,15 @@ export default function Job() {
 
     }
     const fetchData = async () => {
-        console.log("Before getJob");
+        // console.log("Before getJob");
         await getJob(params.id);
-        console.log("After getJob", job);
+        // console.log("After getJob", job);
 
-        if (job && job.response && job.response.post) {
-            console.log("enteree");
+        
 
-            console.log("Before getEmployerById");
-            await getEmployerById(job.response.post.employer);
-            console.log("After getEmployerById", employer);
-
-            if (employer && employer.success) {
-                console.log("Before setEmployerState");
-                setEmployerState((prevEmployerState) => {
-                    return { ...prevEmployerState, ...employer.user };
-                });
-                console.log("After setEmployerState", employerState);
-            }
-        }
-
-        console.log("Before getUserJobSeeker");
+        // console.log("Before getUserJobSeeker");
         await getUserJobSeeker();
-        console.log("After getUserJobSeeker");
+        // console.log("After getUserJobSeeker");
         
     };
     useEffect(() => {
@@ -128,15 +113,13 @@ export default function Job() {
 
 
     const handleApply = async () => {
-        if (!employerState) {
-            console.log("employer not fetched yet")
-        }
+        
         if (!userJobSeeker) {
             console.log("user not fetched yet")
         }
         else {
             const dataEmployer = {
-                to: employerState.email,
+                to: job.response.post.employerObj.email,
                 subject: "Test Email",
                 body: 'This is a test email sent using Nodemailer with a test account.',
             }
@@ -189,7 +172,7 @@ export default function Job() {
                                 <br />
                                 <strong>Skills Required:</strong> {job.response.post.skills_required.join(", ")}
                                 <br />
-                                <strong>Company:</strong> {employerState?.companyName}
+                                <strong>Company:</strong> {job.response.post.employerObj.companyName}
                                 <br />
                                 <strong>Openings:</strong> {job.response.post.openings}
                                 <br />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +11,7 @@ export default function Navbar(props) {
   const [navType, setNavType] = useState("JOBSEEKER");
   const location = useLocation();
   const navigate = useNavigate();
-  const { userJobSeeker, getUserJobSeeker, getUserEmployer } = useAuth();
+  const { userJobSeeker, getUserJobSeeker, getUserEmployer, role, fetchRole } = useAuth();
   const handleNavTypeChange = (newNavType) => {
     setNavType(newNavType);
     navigate('/');
@@ -22,6 +22,13 @@ export default function Navbar(props) {
     localStorage.removeItem("auth-token");
     window.location.href = "/jobseeker";
   };
+
+  useEffect(() => {
+    if (!role) {
+      // Assuming role is a state variable, this check prevents unnecessary calls
+      fetchRole();
+    }
+  }, [role]);
 
   return (
     <nav className={`navbar ${navType === 'JOBSEEKER' ? 'navbar-expand-lg' : 'navbar-expand-lg navbar-dark bg-dark'}`} style={{ backgroundColor: navType === 'JOBSEEKER' ? '#e3f2fd' : '' }}>
@@ -58,22 +65,63 @@ export default function Navbar(props) {
                 Register
               </Link>
             </li>
-            {!localStorage.getItem("auth-token") && (
+            {
+              navType === "JOBSEEKER"
+                ? role && role.role === "employer"
+                  ? (
+                    <li className="nav-item">
+                      <Link
+                        className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
+                        to="/jobseeker/login"
+                      >
+                        Jobseeker Login
+                      </Link>
+                    </li>
+                  )
+                  : role === null
+                    ? (
+                      <li className="nav-item">
+                        <Link
+                          className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
+                          to="/jobseeker/login"
+                        >
+                          Login
+                        </Link>
+                      </li>
+                    )
+                    : null
+                : navType === "EMPLOYER"
+                  ? role && role.role === "jobseeker"
+                    ? (
+                      <li className="nav-item">
+                        <Link
+                          className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
+                          to="/employer/login"
+                        >
+                          Employer Login
+                        </Link>
+                      </li>
+                    )
+                    : role === null
+                      ? (
+                        <li className="nav-item">
+                          <Link
+                            className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
+                            to="/employer/login"
+                          >
+                            Login
+                          </Link>
+                        </li>
+                      )
+                      : null
+                  : null // Handle other cases or set to null if needed
+            }
+            
+            {navType == "EMPLOYER" && localStorage.getItem("auth-token") && role.role=="employer" &&(
+
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/login" ? "active" : "") : (location.pathname === "/employer/login" ? "active" : "")}`}
-                  to={navType === 'JOBSEEKER' ? "/jobseeker/login" : "/employer/login"}
-                >
-                  Login
-                </Link>
-              </li>
-            )}
-
-            {navType == "EMPLOYER" && (
-
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${location.pathname==="/employer/create"?"active":""}`}
+                  className={`nav-link ${location.pathname === "/employer/create" ? "active" : ""}`}
                   to={"/employer/create"}
                 >
                   Create A Post
@@ -81,9 +129,6 @@ export default function Navbar(props) {
               </li>
 
             )
-
-
-
             }
           </ul>
           <ul className="navbar-nav">

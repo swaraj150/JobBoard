@@ -105,8 +105,8 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const [employer,setEmployer]=useState(null);
-  const getEmployerById=async (id) =>{
+  const [employer, setEmployer] = useState(null);
+  const getEmployerById = async (id) => {
     try {
       console.log("entered in fetchEmployer")
       const response = await fetch(`http://localhost:80/api/employer/getuser/${id}`, {
@@ -131,13 +131,30 @@ export const AuthProvider = ({ children }) => {
       setEmployer(null);
     }
   }
-  // console.log("Current response value:", response)
+
+  const [role, setRole] = useState(null);
+  const fetchRole = async () => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem("auth-token")
+      }
+      const response = await axios.get("http://localhost:80/api/utility/getrole", { headers: headers });
+      if (response.data.success) {
+        setRole(response.data);
+      }
+    } catch (e) {
+      console.error('Error fetching user data:', e);
+      setEmployer(null);
+    }
+  }
   return (
-    <AuthContext.Provider value={{ responseEmployer,responseJobSeeker, checkEmployerAuth,checkJobSeekerAuth,userEmployer,getUserEmployer,userJobSeeker,getUserJobSeeker,employer,getEmployerById }}>
+    <AuthContext.Provider value={{ responseEmployer, responseJobSeeker, checkEmployerAuth, checkJobSeekerAuth, userEmployer, getUserEmployer, userJobSeeker, getUserJobSeeker, employer, getEmployerById, role,fetchRole}}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
+// console.log("Current response value:", response)
 export const useAuth = () => {
   return useContext(AuthContext);
 };
