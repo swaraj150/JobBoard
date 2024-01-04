@@ -57,6 +57,8 @@ export default function Navbar(props) {
                 Home
               </Link>
             </li>
+            {!localStorage.getItem("auth-token") && (
+
             <li className="nav-item">
               <Link
                 className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
@@ -65,6 +67,9 @@ export default function Navbar(props) {
                 Register
               </Link>
             </li>
+
+
+            )}
             {
               navType === "JOBSEEKER"
                 ? role && role.role === "employer"
@@ -164,7 +169,7 @@ export default function Navbar(props) {
                 <FontAwesomeIcon
                   icon={faUser}
                   className="mr-2"
-                  style={{ color: "white" }}
+                  style={{ color: navType==='JOBSEEKER'?"black":"white" }}
                   fontSize="150%"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"

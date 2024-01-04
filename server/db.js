@@ -1,5 +1,6 @@
 const mongoose=require("mongoose")
-const MONGOURI="mongodb+srv://andhaleswaraj6:EhnkJIIKaZVJ0KJG@mycluster.oc2fxnz.mongodb.net/jobBoard"
+// const MONGOURI="mongodb+srv://andhaleswaraj6:<password>@mycluster.oc2fxnz.mongodb.net/jobBoard"
+const MONGOURI="mongodb://127.0.0.1:27017/jobBoard"
 
 const connectToMongo=()=>{
     mongoose.connect(MONGOURI);

@@ -170,12 +170,12 @@ export const JobProvider = ({ children }) => {
       }
       const response = await axios.get(`http://localhost:80/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
       setApplication(response.data);
-      console.log("response application ",response.data);
+      console.log("response application ", response.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        setApplication({ error: error.response.data,success:false });
+        setApplication({ error: error.response.data, success: false });
         console.log("application retrieval failed", { error: error.response.data, success: false });
         console.error("application retrieval failed with status code", error.response.status);
       } else if (error.request) {
@@ -188,9 +188,46 @@ export const JobProvider = ({ children }) => {
     }
   }
 
+  const [searchResponse, setSearchResponse] = useState(null);
+  const search = async (data) => {
+    try {
+      const { skills_required, companyName, industry, location, title } = data;
+  
+      const queryParams = {
+        skills_required: skills_required ? skills_required : '',
+        companyName: companyName ? companyName : '',
+        industry: industry ? industry : '',
+        location: location ? location : '',
+        title: title !== undefined ? title : '' 
+      };
+  
+      const queryString = Object.entries(queryParams)
+        .filter(([key, value]) => value !== '')
+        .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+        .join('&');
+  
+      const response = await axios.get(`http://localhost:80/api/job/search?${queryString}`);
+      setSearchResponse(response.data);
+      console.log("response application ", response.data);
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setSearchResponse({ error: error.response.data, success: false });
+        console.log("application retrieval failed", { error: error.response.data, success: false });
+        console.error("application retrieval failed with status code", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  };
 
   return (
-    <JobContext.Provider value={{ response, createJob, jobList, getAllJob, job, getJob, myuserJob, getMyUserJob, apply, sendMail, getApplication, application, applySuccess }}>
+    <JobContext.Provider value={{ response, createJob, jobList, getAllJob, job, getJob, myuserJob, getMyUserJob, apply, sendMail, getApplication, application, applySuccess,search,searchResponse }}>
       {children}
     </JobContext.Provider>
   );

@@ -13,6 +13,7 @@ import Login from './components/Login';
 import Job from './components/Job';
 import JobSeekerApplications from './components/JobSeekerApplications';
 import CreatePost from './components/CreatePost';
+import JobSearchPage from './components/JobSearchPage';
 function App() {
   // window.addEventListener('beforeunload', function(event) {
   //   localStorage.clear();
@@ -28,7 +29,8 @@ function App() {
         <div className="container">
             <Routes>
               <Route  exact path="/employer" element={<HomeEmployer/>}/>
-              <Route  exact path="/jobseeker" element={<Home/>}/>
+              {/* <Route  exact path="/jobseeker" element={<Home/>}/> */}
+              <Route  exact path="/jobseeker" element={<JobSearchPage/>}/>
               <Route exact path="/employer/register" element={<RegisterEmployer/>} /> 
               <Route exact path="/employer/create" element={<CreatePost/>} /> 
               <Route exact path="/jobseeker/register" element={<Register/>} /> 
@@ -36,6 +38,7 @@ function App() {
               <Route exact path="/jobseeker/login" element={<Login />} /> 
               <Route exact path="/jobseeker/job/:id" element={<Job />} />  
               <Route exact path="/jobseeker/applications" element={<JobSeekerApplications />} />  
+
 
             </Routes>
           </div>
