@@ -8,7 +8,7 @@ export default function MyModalEmployer() {
     const logout=()=>{
         console.log("Logging out...");
         localStorage.removeItem("auth-token");
-        window.location.href = "/"; 
+        window.location.href = "./"; 
         // navigate("/")
     }
   if (userEmployer !== null) {

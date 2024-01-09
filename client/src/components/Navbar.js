@@ -20,7 +20,7 @@ export default function Navbar(props) {
   const handleLogout = () => {
     console.log("Logging out...");
     localStorage.removeItem("auth-token");
-    window.location.href = "/jobseeker";
+    window.location.href = "./";
   };
 
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function Navbar(props) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker" ? "active" : "") : (location.pathname === "/employer" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER' ? "/jobseeker" : "/employer"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "./jobseeker" ? "active" : "") : (location.pathname === "./employer" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "./jobseeker" : "./employer"}
               >
                 Home
               </Link>
@@ -61,8 +61,8 @@ export default function Navbar(props) {
 
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER' ? "/jobseeker/register" : "/employer/register"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "./jobseeker/register" ? "active" : "") : (location.pathname === "./employer/register" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "./jobseeker/register" : "./employer/register"}
               >
                 Register
               </Link>
@@ -76,8 +76,8 @@ export default function Navbar(props) {
                   ? (
                     <li className="nav-item">
                       <Link
-                        className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
-                        to="/jobseeker/login"
+                        className={`nav-link ${location.pathname === "./jobseeker/login" ? "active" : ""}`}
+                        to="./jobseeker/login"
                       >
                         Jobseeker Login
                       </Link>
@@ -87,8 +87,8 @@ export default function Navbar(props) {
                     ? (
                       <li className="nav-item">
                         <Link
-                          className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
-                          to="/jobseeker/login"
+                          className={`nav-link ${location.pathname === "./jobseeker/login" ? "active" : ""}`}
+                          to="./jobseeker/login"
                         >
                           Login
                         </Link>
@@ -100,8 +100,8 @@ export default function Navbar(props) {
                     ? (
                       <li className="nav-item">
                         <Link
-                          className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
-                          to="/employer/login"
+                          className={`nav-link ${location.pathname === "./employer/login" ? "active" : ""}`}
+                          to="./employer/login"
                         >
                           Employer Login
                         </Link>
@@ -111,8 +111,8 @@ export default function Navbar(props) {
                       ? (
                         <li className="nav-item">
                           <Link
-                            className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
-                            to="/employer/login"
+                            className={`nav-link ${location.pathname === "./employer/login" ? "active" : ""}`}
+                            to="./employer/login"
                           >
                             Login
                           </Link>
@@ -126,8 +126,8 @@ export default function Navbar(props) {
 
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${location.pathname === "/employer/create" ? "active" : ""}`}
-                  to={"/employer/create"}
+                  className={`nav-link ${location.pathname === "./employer/create" ? "active" : ""}`}
+                  to={"./employer/create"}
                 >
                   Create A Post
                 </Link>
@@ -140,9 +140,9 @@ export default function Navbar(props) {
             {navType === 'JOBSEEKER' && (
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${location.pathname === "/employer" ? "active" : ""}`}
+                  className={`nav-link ${location.pathname === "./employer" ? "active" : ""}`}
                   onClick={() => handleNavTypeChange("EMPLOYER")}
-                  to={"/employer"}
+                  to={"./employer"}
                 >
                   POST JOBS
                 </Link>
@@ -151,9 +151,9 @@ export default function Navbar(props) {
             {navType === 'EMPLOYER' && (
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${location.pathname === "/jobseeker" ? "active" : ""}`}
+                  className={`nav-link ${location.pathname === "./jobseeker" ? "active" : ""}`}
                   onClick={() => handleNavTypeChange("JOBSEEKER")}
-                  to={"/jobseeker"}
+                  to={"./jobseeker"}
                 >
                   FIND JOBS
                 </Link>
@@ -161,7 +161,7 @@ export default function Navbar(props) {
             )}
             <li className="nav-item">
               <Link
-                className={`nav-link ${location.pathname === "/user" ? "active" : ""}`}
+                className={`nav-link ${location.pathname === "./user" ? "active" : ""}`}
                 onClick={() => {
                   navType === 'JOBSEEKER' ? getUserJobSeeker() : getUserEmployer();
                 }}

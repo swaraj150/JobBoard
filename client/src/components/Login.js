@@ -35,7 +35,7 @@ export default function Login() {
             
             // Redirect to "/quizlist" after successful login
             if (localStorage.getItem("auth-token")) {
-                window.location.href = "/jobseeker";
+                window.location.href = "./";
             }
         }
         else{

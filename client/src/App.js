@@ -28,18 +28,16 @@ function App() {
         <Navbar title="Job Board" aboutText="About us"  />
         <div className="container">
             <Routes>
-              <Route  exact path="/employer" element={<HomeEmployer/>}/>
+              <Route  exact path="./employer" element={<HomeEmployer/>}/>
               {/* <Route  exact path="/jobseeker" element={<Home/>}/> */}
-              <Route  exact path="/jobseeker" element={<JobSearchPage/>}/>
-              <Route exact path="/employer/register" element={<RegisterEmployer/>} /> 
-              <Route exact path="/employer/create" element={<CreatePost/>} /> 
-              <Route exact path="/jobseeker/register" element={<Register/>} /> 
-              <Route exact path="/employer/login" element={<LoginEmployer />} /> 
-              <Route exact path="/jobseeker/login" element={<Login />} /> 
-              <Route exact path="/jobseeker/job/:id" element={<Job />} />  
-              <Route exact path="/jobseeker/applications" element={<JobSeekerApplications />} />  
-
-
+              <Route  exact path="./" element={<JobSearchPage/>}/>
+              <Route exact path="./employer/register" element={<RegisterEmployer/>} /> 
+              <Route exact path="./employer/create" element={<CreatePost/>} /> 
+              <Route exact path="./jobseeker/register" element={<Register/>} /> 
+              <Route exact path="./employer/login" element={<LoginEmployer />} /> 
+              <Route exact path="./jobseeker/login" element={<Login />} /> 
+              <Route exact path="./jobseeker/job/:id" element={<Job />} />  
+              <Route exact path="./jobseeker/applications" element={<JobSeekerApplications />} />  
             </Routes>
           </div>
           </BrowserRouter>

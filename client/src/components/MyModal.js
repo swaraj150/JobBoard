@@ -10,7 +10,7 @@ export default function MyModal() {
         console.log("Logging out...");
         // localStorage.removeItem("auth-token");
         localStorage.clear();
-        window.location.href = "/jobseeker"; 
+        window.location.href = "./"; 
         // navigate("/")
     }
   
