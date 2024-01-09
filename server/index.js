@@ -1,8 +1,12 @@
 const express=require("express");
 const cors=require("cors");
-const connectToMongo=require("./db");
+const dotenv=require("dotenv");
 const port=80;
 const app=express();
+dotenv.config();
+
+const connectToMongo=require("./db");
+connectToMongo();
 app.use(cors());
 app.use(express.json());
 app.use("/api/employer",require("./routes/employerModelRoutes"));
@@ -14,4 +18,3 @@ app.use("/api/utility",require("./routes/utilityRoutes"));
 app.listen(port,()=>{
     console.log(`Bank app listening on port at http://localhost:80`);
 });
-connectToMongo();
