@@ -40,7 +40,7 @@ const JobSearchPage = () => {
         <div className="container mt-5">
             <div className="row">
                 {/* Preferences Card */}
-                <div className="card" style={{ width: "19rem", height: "20rem" }}>
+                <div className="card shadow rounded-lg" style={{ width: "19rem", height: "20rem" }}>
                     <div className="card-body">
                         <h5 className="card-title">Preferences</h5>
                         {/* Radio buttons for different search criteria */}
@@ -109,11 +109,9 @@ const JobSearchPage = () => {
                                 By Location
                             </label>
                         </div>
-                        {/* Add similar form-checks for other search criteria */}
                     </div>
                 </div>
 
-                {/* Search Bar and Results */}
                 <div className="col-md-9">
                     <div className="input-group mb-3">
                         <input
@@ -135,8 +133,8 @@ const JobSearchPage = () => {
                             {searchResponse.jobs.length > 0 ? (
                                 <div>
                                     {searchResponse.jobs.map((job) => (
-                                        <div key={job._id} className="col-md-4 mb-3">
-                                            <div className="card" style={{ width:"30rem", height:"15rem" }}>
+                                        <div key={job._id} className="col-md-4 mb-3 ">
+                                            <div className="card shadow rounded-lg" style={{ width:"30rem", height:"15rem" }}>
                                                 <div className="card-body d-flex flex-column justify-content-center align-items-center ">
                                                     <h5 className="card-title">{job.title}</h5>
                                                     <p className="card-text">{job.description} </p>

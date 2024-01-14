@@ -40,16 +40,22 @@ const JobSeekerApplications = () => {
       {applications.length === 0 ? (
         <p>No applications found.</p>
       ) : (
-        <ul>
-          {applications.map((application) => (
-            <li key={application._id}>
-              <strong>Job Title:</strong> {application.title}<br />
-              <strong>Company:</strong> {application.description}<br />
-              {/* Add more details as needed */}
-              <hr />
-            </li>
-          ))}
-        </ul>
+        <table className="table table-bordered my-3">
+          <thead>
+            <tr>
+              <th>Job Title</th>
+              <th>Company</th>
+            </tr>
+          </thead>
+          <tbody>
+            {applications.map((application) => (
+              <tr key={application.application._id}>
+                <td>{application.application.title}</td>
+                <td>{application.employer.companyName}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

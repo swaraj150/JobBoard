@@ -10,7 +10,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.post("http://localhost:80/api/Job/create", data, {
+      const res = await axios.post("http://localhost:80/api/job/create", data, {
         headers: headers
       });
       setResponse(res.data)
@@ -66,7 +66,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.get(`http://localhost:80/api/Job/getpost/${id}`, {
+      const res = await axios.get(`http://localhost:80/api/job/getpost/${id}`, {
         headers: headers
       });
       setJob({ response: res.data, success: true })
@@ -90,11 +90,11 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.get("http://localhost:80/api/Job/getuserJob", {
+      const res = await axios.get("http://localhost:80/api/job/getuserpost", {
         headers: headers
       });
       setMyUserJob({ response: res.data, success: true })
-      console.log("Job retrieval success", res.data);
+      // console.log("Job retrieval success", res.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -226,8 +226,40 @@ export const JobProvider = ({ children }) => {
     }
   };
 
+  const [updateStatus, setUpdateStatus] = useState(null);
+  const updateStatusfun = async (data) => {
+    try {
+      const headers = {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem("auth-token")
+      }
+      const res = await axios.put("http://localhost:80/api/job/update-status", data, { headers: headers });
+      console.log(res.data);
+      if (res.data.success) setUpdateStatus(res.data);
+      
+
+    } catch (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        // setMyUserJob({error:error.response.data,success:false});
+        setUpdateStatus(error.response)
+        console.log("status update failed", { error: error.response.data, success: false });
+        console.error("status update failed with status code", error.response.status);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received from the server");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up the request", error.message);
+      }
+    }
+  };
+
+
+
   return (
-    <JobContext.Provider value={{ response, createJob, jobList, getAllJob, job, getJob, myuserJob, getMyUserJob, apply, sendMail, getApplication, application, applySuccess,search,searchResponse }}>
+    <JobContext.Provider value={{ response, createJob, jobList, getAllJob, job, getJob, myuserJob, getMyUserJob, apply, sendMail, getApplication, application, applySuccess,search,searchResponse,updateStatus,updateStatusfun }}>
       {children}
     </JobContext.Provider>
   );

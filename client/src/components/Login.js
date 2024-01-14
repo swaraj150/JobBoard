@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react"
 import { useAuth } from "../Context/AuthState"
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from "../Context/RegisterState"
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Login() {
     let navigate = useNavigate();
     const myform = useRef(null);
-    const { responseJobSeeker,checkJobSeekerAuth } = useAuth();
+    const { responseJobSeeker, checkJobSeekerAuth,fetchRole } = useAuth();
     const [cred, setCred] = useState({ email: "", password: "" });
     const { showalert } = useRegister();
 
@@ -17,8 +19,23 @@ export default function Login() {
 
     const handlesubmit = async (e) => {
         e.preventDefault();
-        // localStorage.removeItem("auth-token");
-        await checkJobSeekerAuth(cred);
+        const {email,password}=cred;
+         if (email === "") {
+            toast.error("Email is Required !")
+          } else if (!email.includes("@")) {
+            toast.error("Enter Valid Email !")
+          } else if (password === "") {
+            toast.error("Password is Required !")
+          } 
+          else {
+            await checkJobSeekerAuth(cred);
+            
+    
+          
+            
+        }
+
+      
         myform.current.reset();
 
     }
@@ -26,40 +43,46 @@ export default function Login() {
     useEffect(() => {
         console.log("from Login: ", responseJobSeeker);
 
-        if (responseJobSeeker && responseJobSeeker.success) {
-            localStorage.setItem("auth-token", responseJobSeeker.authtoken);
-
-
-            showalert("Logged in Succesfully","success");
-
-            
-            // Redirect to "/quizlist" after successful login
-            if (localStorage.getItem("auth-token")) {
-                window.location.href = "./";
+        if (responseJobSeeker) {
+            if (responseJobSeeker.success) {
+                toast.success("Logged in Successfully");
+                localStorage.setItem("auth-token", responseJobSeeker.authtoken);
+                
+                showalert("Logged in Successfully", "success");
+                
+                if (localStorage.getItem("auth-token")) {
+                    navigate("/");
+                }
+            } else {
+                showalert("Something went wrong", "danger");
+                toast.error(responseJobSeeker.error);
             }
         }
-        else{
-            showalert("Something went wrong","danger");
 
-        }
-        
-    }, [responseJobSeeker, navigate]);
+    }, [responseJobSeeker]);
 
     return (
         <div>
-            <div className="my-3">
-                <form onSubmit={handlesubmit} ref={myform}>
+            <div className="container my-5 d-flex justify-content-center">
+                <form onSubmit={handlesubmit} ref={myform} className="shadow p-5 rounded-lg  col-md-6">
+                    <h2 className="text-center mb-4">Login</h2>
                     <div className="mb-3">
-                        <label htmlFor="exampleFormControlTextarea1" className="form-label">Email</label>
-                        <input className="form-control" id="exampleFormControlTextarea1" name="email" onChange={handleChange} required />
+                        <label htmlFor="exampleFormControlInput1" className="form-label">Email</label>
+                        <input type="email" className="form-control" id="exampleFormControlInput1" name="email" onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                         <input type="password" className="form-control" id="exampleInputPassword1" name="password" onChange={handleChange} required />
                     </div>
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <div className="text-center">
+                        <button type="submit" className="btn btn-primary" onClick={handlesubmit}>Login</button>
+                    </div>
                 </form>
+                <ToastContainer position="top-center" />
             </div>
         </div>
+
+
+
     );
 }

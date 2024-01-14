@@ -144,7 +144,7 @@ export const AuthProvider = ({ children }) => {
         setRole(response.data);
       }
     } catch (e) {
-      console.error('Error fetching user data:', e);
+      console.error('Error fetching user data:', e.error);
       setEmployer(null);
     }
   }

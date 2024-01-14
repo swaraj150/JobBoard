@@ -14,36 +14,49 @@ import Job from './components/Job';
 import JobSeekerApplications from './components/JobSeekerApplications';
 import CreatePost from './components/CreatePost';
 import JobSearchPage from './components/JobSearchPage';
+import Alert from './components/Alert';
+import EmployerPosts from './components/EmployerPosts';
+import EmployerPost from './components/EmployerPost';
+import Candidates from './components/Candidates';
 function App() {
   // window.addEventListener('beforeunload', function(event) {
   //   localStorage.clear();
   // });
   return (
     <>
-    <RegisterProvider>
-      <AuthProvider>
-        <JobProvider>
+      <RegisterProvider>
+        <AuthProvider>
+          <JobProvider>
 
-        <BrowserRouter>
-        <Navbar title="Job Board" aboutText="About us"  />
-        <div className="container">
-            <Routes>
-              <Route  exact path="./employer" element={<HomeEmployer/>}/>
-              {/* <Route  exact path="/jobseeker" element={<Home/>}/> */}
-              <Route  exact path="./" element={<JobSearchPage/>}/>
-              <Route exact path="./employer/register" element={<RegisterEmployer/>} /> 
-              <Route exact path="./employer/create" element={<CreatePost/>} /> 
-              <Route exact path="./jobseeker/register" element={<Register/>} /> 
-              <Route exact path="./employer/login" element={<LoginEmployer />} /> 
-              <Route exact path="./jobseeker/login" element={<Login />} /> 
-              <Route exact path="./jobseeker/job/:id" element={<Job />} />  
-              <Route exact path="./jobseeker/applications" element={<JobSeekerApplications />} />  
-            </Routes>
-          </div>
-          </BrowserRouter>
-        </JobProvider>
-      </AuthProvider>
-    </RegisterProvider>
+            <BrowserRouter>
+              <Navbar title="Job Board" aboutText="About us" />
+              {/* <div className="container">
+                <div className="alert-placeholder">
+                  <Alert />
+                </div>
+              </div> */}
+
+              <div className="container">
+                <Routes>
+                  <Route exact path="/employer" element={<HomeEmployer />} />
+                  {/* <Route  exact path="/jobseeker" element={<Home/>}/> */}
+                  <Route exact path="/" element={<JobSearchPage />} />
+                  <Route exact path="/employer/register" element={<RegisterEmployer />} />
+                  <Route exact path="/employer/create" element={<CreatePost />} />
+                  <Route exact path="/employer/posts" element={<EmployerPosts />} />
+                  <Route exact path="/jobseeker/register" element={<Register />} />
+                  <Route exact path="/employer/login" element={<LoginEmployer />} />
+                  <Route exact path="/jobseeker/login" element={<Login />} />
+                  <Route exact path="/jobseeker/job/:id" element={<Job />} />
+                  <Route exact path="/employer/job/:id" element={<EmployerPost />} />
+                  <Route exact path="/jobseeker/applications" element={<JobSeekerApplications />} />
+                  <Route exact path="/employer/applicants" element={<Candidates />} />
+                </Routes>
+              </div>
+            </BrowserRouter>
+          </JobProvider>
+        </AuthProvider>
+      </RegisterProvider>
     </>
   );
 }

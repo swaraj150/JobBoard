@@ -161,7 +161,7 @@ export default function Job() {
                     <h2>{job.response.post.title}</h2>
                 </div>
                 <div className="my-3" style={{ maxWidth: "70rem" }}>
-                    <div className="card">
+                    <div className="card shadow rounded-lg">
                         <div className="card-body">
                             <p className="card-text">{job.response.post.description}</p>
                             <p className="card-text">

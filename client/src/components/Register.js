@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { useRegister } from "../Context/RegisterState"
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Register() {
     const myform = useRef(null);
@@ -14,7 +16,26 @@ export default function Register() {
 
     const handlesubmit = async (e) => {
         e.preventDefault();
-        await registerJobSeekerUser(data);
+        const {name,username,email,password,education,skills}=data;
+        if (name === "") {
+            toast.error("Name is Required !")
+          } else if (username === "") {
+            toast.error("Username is Required !")
+          } else if (email === "") {
+            toast.error("Email is Required !")
+          } else if (!email.includes("@")) {
+            toast.error("Enter Valid Email !")
+          } else if (password === "") {
+            toast.error("Password is Required !")
+          } 
+          else if (education === "") {
+            toast.error("Education is Required !")
+          } else if (skills.length === 0) {
+            toast.error("Skills are Required !")
+          }
+          else{
+            await registerJobSeekerUser(data);
+          }
         myform.current.reset();
 
     }
@@ -77,6 +98,7 @@ export default function Register() {
         if (responseJobSeeker && responseJobSeeker.success) {
             localStorage.setItem("auth-token", responseJobSeeker.authtoken);
             showalert("Registered Succesfully","success");
+
             // if(localStorage.getItem("auth-token")){
             //     window.location.href = "/quizlist";
             // } 
@@ -90,8 +112,8 @@ export default function Register() {
 
     return (
         <div>
-            <div className="my-3">
-                <form onSubmit={handlesubmit} ref={myform}>
+            <div className="container my-3 d-flex justify-content-center">
+                <form onSubmit={handlesubmit} ref={myform}  className="shadow p-5 rounded-lg  col-md-6">
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Name</label>
                         <input className="form-control" id="exampleFormControlTextarea1" name="name" onChange={handleChange} required />
@@ -124,8 +146,10 @@ export default function Register() {
                             maxMenuHeight={100}
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary" onSubmit={handlesubmit}>Register</button>
+                    <button type="submit" className=" my-2 btn btn-primary" onSubmit={handlesubmit}>Register</button>
                 </form>
+                <ToastContainer position="top-center" />
+
             </div>
         </div>
     )

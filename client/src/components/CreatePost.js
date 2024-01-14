@@ -1,10 +1,11 @@
-import React, { useState,useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import { useJob } from "../Context/JobState";
 
 export default function CreatePost() {
-  const {response, createJob} = useJob();
+  const { response, createJob } = useJob();
   const myform = useRef(null);
 
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function CreatePost() {
     { value: "RESTful APIs", label: "RESTful APIs" },
     { value: "MongoDB", label: "MongoDB" },
     { value: "SQL", label: "SQL" },
-  
+
     // Programming Languages
     { value: "Java", label: "Java" },
     { value: "Python", label: "Python" },
@@ -38,7 +39,7 @@ export default function CreatePost() {
     { value: "Ruby", label: "Ruby" },
     { value: "Go", label: "Go" },
     { value: "Swift", label: "Swift" },
-  
+
     // Data Science
     { value: "Python", label: "Python" },
     { value: "R", label: "R" },
@@ -46,14 +47,14 @@ export default function CreatePost() {
     { value: "Data Analysis", label: "Data Analysis" },
     { value: "Data Visualization", label: "Data Visualization" },
     { value: "SQL", label: "SQL" },
-  
+
     // Design
     { value: "Adobe Photoshop", label: "Adobe Photoshop" },
     { value: "Adobe Illustrator", label: "Adobe Illustrator" },
     { value: "Sketch", label: "Sketch" },
     { value: "Figma", label: "Figma" },
     { value: "UI/UX Design", label: "UI/UX Design" },
-  
+
     // DevOps
     { value: "Docker", label: "Docker" },
     { value: "Kubernetes", label: "Kubernetes" },
@@ -73,23 +74,45 @@ export default function CreatePost() {
   const handleSkillsChange = (selectedOptions) => {
     // Extract skill values and update the state
     const skills = selectedOptions.map((option) => option.value);
-    setFormData((d) => ({ ...d, skills }));
-};
+    setFormData((d) => ({ ...d, skills_required: skills }));
+  };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Add your logic to submit the form data and create a new job post
-     await createJob(formData)
-     myform.current.reset();
+    const { title,
+      description,
+      requirements,
+      skills_required,
+      openings, 
+      income,
+      location } = formData;
+    if (title === "" || description === "" || requirements === "" || skills_required.length === 0 || openings === "" || income === "" || location===" " ) {
+      toast.error("Enter all the fields !")
+    } 
+    else{
+      await createJob(formData)
+
+    }
+    myform.current.reset();
     console.log("Form submitted:", formData);
     // Redirect to the desired page after creating the post (e.g., job list)
   };
-
+  useEffect(()=>{
+    if(response){
+      if(response.success){
+        toast.success("Post Created!")
+      }
+      else{
+        toast.success("Something went wrong!")
+      }
+    }
+  },[response])
   return (
-    <div className="container mt-5">
+    <div className="container my-3">
       <h2>Create New Job Post</h2>
       <form onSubmit={handleSubmit} ref={myform}>
-        <div className="mb-3">
+        <div className="mb-3 my-3">
           <label htmlFor="title" className="form-label">Title</label>
           <input
             type="text"
@@ -179,9 +202,9 @@ export default function CreatePost() {
             required
           />
         </div>
-
         <button type="submit" className="btn btn-primary" onClick={handleSubmit}>Create Post</button>
       </form>
+      <ToastContainer position="top-center"/>
     </div>
   );
 }

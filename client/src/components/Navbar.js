@@ -17,23 +17,20 @@ export default function Navbar(props) {
     navigate('/');
   };
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    localStorage.removeItem("auth-token");
-    window.location.href = "./";
-  };
+
 
   useEffect(() => {
-    if (!role) {
-      // Assuming role is a state variable, this check prevents unnecessary calls
-      fetchRole();
-    }
-  }, [role]);
+    fetchRole();
+  });
+
+  useEffect(() => {
+    setNavType(location.pathname.startsWith('/employer') ? 'EMPLOYER' : 'JOBSEEKER');
+  }, [location.pathname]);
 
   return (
     <nav className={`navbar ${navType === 'JOBSEEKER' ? 'navbar-expand-lg' : 'navbar-expand-lg navbar-dark bg-dark'}`} style={{ backgroundColor: navType === 'JOBSEEKER' ? '#e3f2fd' : '' }}>
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand" href="/">
           Job Board
         </a>
         <Link
@@ -51,8 +48,8 @@ export default function Navbar(props) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "./jobseeker" ? "active" : "") : (location.pathname === "./employer" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER' ? "./jobseeker" : "./employer"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/" ? "active" : "") : (location.pathname === "/employer" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "/" : "/employer"}
               >
                 Home
               </Link>
@@ -61,34 +58,43 @@ export default function Navbar(props) {
 
             <li className="nav-item">
               <Link
-                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "./jobseeker/register" ? "active" : "") : (location.pathname === "./employer/register" ? "active" : "")}`}
-                to={navType === 'JOBSEEKER' ? "./jobseeker/register" : "./employer/register"}
+                className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
+                to={navType === 'JOBSEEKER' ? "/jobseeker/register" : "/employer/register"}
               >
                 Register
               </Link>
             </li>
-
-
             )}
             {
               navType === "JOBSEEKER"
                 ? role && role.role === "employer"
                   ? (
+                    <>
+                    
                     <li className="nav-item">
                       <Link
-                        className={`nav-link ${location.pathname === "./jobseeker/login" ? "active" : ""}`}
-                        to="./jobseeker/login"
+                        className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
+                        to="/jobseeker/login"
                       >
-                        Jobseeker Login
+                         Login
                       </Link>
                     </li>
+                     <li className="nav-item">
+                     <Link
+                       className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
+                       to={navType === 'JOBSEEKER' ? "/jobseeker/register" : "/employer/register"}
+                     >
+                       Register
+                     </Link>
+                   </li>
+                    </>
                   )
-                  : role === null
+                  : role === null && !localStorage.getItem("auth-token")
                     ? (
                       <li className="nav-item">
                         <Link
-                          className={`nav-link ${location.pathname === "./jobseeker/login" ? "active" : ""}`}
-                          to="./jobseeker/login"
+                          className={`nav-link ${location.pathname === "/jobseeker/login" ? "active" : ""}`}
+                          to="/jobseeker/login"
                         >
                           Login
                         </Link>
@@ -98,40 +104,67 @@ export default function Navbar(props) {
                 : navType === "EMPLOYER"
                   ? role && role.role === "jobseeker"
                     ? (
+                      <>
                       <li className="nav-item">
                         <Link
-                          className={`nav-link ${location.pathname === "./employer/login" ? "active" : ""}`}
-                          to="./employer/login"
+                          className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
+                          to="/employer/login"
                         >
-                          Employer Login
+                           Login
                         </Link>
                       </li>
+                      <li className="nav-item">
+                     <Link
+                       className={`nav-link ${navType === 'JOBSEEKER' ? (location.pathname === "/jobseeker/register" ? "active" : "") : (location.pathname === "/employer/register" ? "active" : "")}`}
+                       to={navType === 'JOBSEEKER' ? "/jobseeker/register" : "/employer/register"}
+                     >
+                       Register
+                     </Link>
+                   </li>
+                      </>
                     )
-                    : role === null
+                    : role === null && !localStorage.getItem("auth-token")
                       ? (
                         <li className="nav-item">
                           <Link
-                            className={`nav-link ${location.pathname === "./employer/login" ? "active" : ""}`}
-                            to="./employer/login"
+                            className={`nav-link ${location.pathname === "/employer/login" ? "active" : ""}`}
+                            to="/employer/login"
                           >
                             Login
                           </Link>
                         </li>
                       )
                       : null
-                  : null // Handle other cases or set to null if needed
+                  : null 
             }
             
-            {navType == "EMPLOYER" && localStorage.getItem("auth-token") && role.role=="employer" &&(
-
-              <li className="nav-item">
-                <Link
-                  className={`nav-link ${location.pathname === "./employer/create" ? "active" : ""}`}
-                  to={"./employer/create"}
-                >
-                  Create A Post
-                </Link>
-              </li>
+            {navType == "EMPLOYER" && localStorage.getItem("auth-token") && role && role.role=="employer" &&(
+              <>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link ${location.pathname === "/employer/create" ? "active" : ""}`}
+                    to={"/employer/create"}
+                  >
+                    Create A Post
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link ${location.pathname === "/employer/posts" ? "active" : ""}`}
+                    to={"/employer/posts"}
+                  >
+                    Your Posts
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link ${location.pathname === "/employer/applicants" ? "active" : ""}`}
+                    to={"/employer/applicants"}
+                  >
+                    Candidates
+                  </Link>
+                </li>
+              </>
 
             )
             }
@@ -140,9 +173,9 @@ export default function Navbar(props) {
             {navType === 'JOBSEEKER' && (
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${location.pathname === "./employer" ? "active" : ""}`}
+                  className={`nav-link ${location.pathname === "/employer" ? "active" : ""}`}
                   onClick={() => handleNavTypeChange("EMPLOYER")}
-                  to={"./employer"}
+                  to={"/employer"}
                 >
                   POST JOBS
                 </Link>
@@ -151,9 +184,9 @@ export default function Navbar(props) {
             {navType === 'EMPLOYER' && (
               <li className="nav-item">
                 <Link
-                  className={`nav-link ${location.pathname === "./jobseeker" ? "active" : ""}`}
+                  className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
                   onClick={() => handleNavTypeChange("JOBSEEKER")}
-                  to={"./jobseeker"}
+                  to={"/"}
                 >
                   FIND JOBS
                 </Link>
@@ -161,7 +194,7 @@ export default function Navbar(props) {
             )}
             <li className="nav-item">
               <Link
-                className={`nav-link ${location.pathname === "./user" ? "active" : ""}`}
+                className={`nav-link ${location.pathname === "/user" ? "active" : ""}`}
                 onClick={() => {
                   navType === 'JOBSEEKER' ? getUserJobSeeker() : getUserEmployer();
                 }}

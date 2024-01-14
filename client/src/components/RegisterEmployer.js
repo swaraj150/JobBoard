@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useRegister } from "../Context/RegisterState"
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 export default function RegisterEmployer() {
     const myform = useRef(null);
     const { responseEmployer, registerEmployerUser } = useRegister();
@@ -12,7 +13,27 @@ export default function RegisterEmployer() {
 
     const handlesubmit = async (e) => {
         e.preventDefault();
-        await registerEmployerUser(data);
+        const {name,username,email,password,industry,companyName}=data;
+        if (name === "") {
+            toast.error("Name is Required !")
+          } else if (username === "") {
+            toast.error("Username is Required !")
+          } else if (email === "") {
+            toast.error("Email is Required !")
+          } else if (!email.includes("@")) {
+            toast.error("Enter Valid Email !")
+          } else if (password === "") {
+            toast.error("Password is Required !")
+          } 
+          else if (industry === "") {
+            toast.error("Industry is Required !")
+          } else if (companyName === "") {
+            toast.error("Company Name is Required !")
+          }
+          else{
+              await registerEmployerUser(data);
+
+          }
         myform.current.reset();
 
     }
@@ -29,8 +50,8 @@ export default function RegisterEmployer() {
 
     return (
         <div>
-            <div className="my-3">
-                <form onSubmit={handlesubmit} ref={myform}>
+            <div className="container my-3 d-flex justify-content-center">
+                <form onSubmit={handlesubmit} ref={myform} className="shadow p-5 rounded-lg  col-md-6">
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Name</label>
                         <input className="form-control" id="exampleFormControlTextarea1" name="name" onChange={handleChange} required />
@@ -56,8 +77,9 @@ export default function RegisterEmployer() {
                         <label htmlFor="exampleInputPassword1" className="form-label">Industry</label>
                         <input className="form-control" id="exampleFormControlTextarea1" name="industry" onChange={handleChange} required />
                     </div>
-                    <button type="submit" className="btn btn-primary" onSubmit={handlesubmit}>Register</button>
+                    <button type="submit" className="btn btn-primary" onClick={handlesubmit}>Register</button>
                 </form>
+                <ToastContainer position="top-center" />
             </div>
         </div>
     )

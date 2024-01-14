@@ -4,8 +4,9 @@ const Employer = require("../models/Employer")
 const { body, validationResult } = require("express-validator");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const fetchUser=require("../middleware/fetchUser")
-const JWT_SECRET = "sWARAJ$aNDHALE@20";
+const fetchUser=require("../middleware/fetchUser");
+const Job = require('../models/Job');
+const JWT_SECRET = process.env.JWT_SECRET;
 const expiresIn = "3h";
 router.post("/register", [body("email", "Enter a valid email").isEmail()], async (req, res) => {
     const errors = validationResult(req);
@@ -113,7 +114,23 @@ router.get("/getuser/:id", fetchUser, async (req, res) => {
         res.status(500).json({ success: false, error: "Internal server error" });
     }
 });
+// router.get("/getmyposts", fetchUser, async (req, res) => {
+//     try {
+//         if (!req.user || !req.user.id) {
+//             return res.status(401).send({ message: "User not authenticated" });
+//         }
+//         if(req.user.role=="jobseeker"){
+//             return res.status(401).send({ message: "This is not a Jobseeker route" });
+//         }
+//         const userid = req.user.id;
 
+//         const posts = await Job.find();
+//         res.send(user);
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send("Internal Server error")
+//     }
+// });
 
 
 

@@ -1,19 +1,20 @@
-// import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthState";
-import JobSeekerApplications from "./JobSeekerApplications";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faEnvelope, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
-export default function MyModal() {
+const MyModal = () => {
   const { userJobSeeker } = useAuth();
-//   let navigate = useNavigate();
-    const logout=()=>{
-        console.log("Logging out...");
-        // localStorage.removeItem("auth-token");
-        localStorage.clear();
-        window.location.href = "./"; 
-        // navigate("/")
-    }
-  
+  const navigate = useNavigate();
+
+  const logout = () => {
+    console.log("Logging out...");
+    localStorage.clear();
+    window.location.href = "/";
+    navigate("/");
+  };
+
   return (
     <div className="my-3">
       <div
@@ -27,7 +28,7 @@ export default function MyModal() {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                User Info
+                JobSeeker Profile
               </h1>
               <button
                 type="button"
@@ -39,13 +40,15 @@ export default function MyModal() {
             <div className="modal-body">
               {userJobSeeker !== null ? (
                 <>
-                  <h4 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>
-                    Welcome, {userJobSeeker.name}
-                  </h4>
-                  {/* <JobSeekerApplications /> */}
-                  <Link to="/jobseeker/applications" className="btn btn-primary">
-                    View Applications
-                  </Link>
+                  <div className="d-flex align-items-center mb-3">
+                    <FontAwesomeIcon icon={faUser} className="me-2" />
+                    <h4 className="mb-0">Welcome, {userJobSeeker.name}</h4>
+                  </div>
+                  <p>
+                    <FontAwesomeIcon icon={faEnvelope} className="me-2" />
+                    Email: {userJobSeeker.email}
+                  </p>
+                  {/* Add more information about the job seeker as needed */}
                 </>
               ) : (
                 <p style={{ fontSize: "1.2rem", marginBottom: "0.5rem" }}>
@@ -62,9 +65,15 @@ export default function MyModal() {
                 Close
               </button>
               {userJobSeeker !== null && (
-                <button type="button" className="btn btn-danger" onClick={logout}>
-                  Logout
-                </button>
+                <>
+                  <Link to="/jobseeker/applications" className="btn btn-primary me-2">
+                    View Applications
+                  </Link>
+                  <button type="button" className="btn btn-danger" onClick={logout}>
+                    <FontAwesomeIcon icon={faSignOutAlt} className="me-1" />
+                    Logout
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -72,5 +81,6 @@ export default function MyModal() {
       </div>
     </div>
   );
-}
+};
 
+export default MyModal;
