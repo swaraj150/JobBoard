@@ -4,7 +4,8 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from "../Context/AuthState";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocation } from '@fortawesome/free-solid-svg-icons';
-
+import { ToastContainer, toast } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 
 export default function Job() {
@@ -88,15 +89,10 @@ export default function Job() {
 
     }
     const fetchData = async () => {
-        // console.log("Before getJob");
         await getJob(params.id);
-        // console.log("After getJob", job);
-
         
-
-        // console.log("Before getUserJobSeeker");
         await getUserJobSeeker();
-        // console.log("After getUserJobSeeker");
+        
         
     };
     useEffect(() => {
@@ -115,20 +111,29 @@ export default function Job() {
     const handleApply = async () => {
         
         if (!userJobSeeker) {
+            toast.error("You'd have to login to apply");
             console.log("user not fetched yet")
         }
         else {
             const dataEmployer = {
                 to: job.response.post.employerObj.email,
-                subject: "Test Email",
-                body: 'This is a test email sent using Nodemailer with a test account.',
-            }
-            const dataJobSeeker = {
+                subject: `Acknowledgment for Job Application`,
+                body: `
+                Dear ${job.response.post.employerObj.name},
+                
+                We hope this email finds you well. This message is to acknowledge the job application from 
+                ${userJobSeeker.name} for the ${job.response.post.title} position at ${job.response.post.employerObj.companyName}.
+                `
+              }
+              const dataJobSeeker = {
                 to: userJobSeeker.email,
-                subject: "Test Email",
-                body: 'This is a test email sent using Nodemailer with a test account.',
-            }
-            console.log("applied");
+                subject: `Acknowledgment for Job Application`,
+                body: `
+                Dear ${userJobSeeker.name},
+          
+                I hope this email finds you well. This message is to confirm the application for ${job.response.post.title} at ${job.response.post.employerObj.companyName}.                 `
+              }
+            
 
             // Apply for the job
             await apply({ jobId: job.response.post._id });
@@ -136,13 +141,15 @@ export default function Job() {
             // After applying, recheck the application status
             // console.log(response)
             // Check if the user has already applied based on the latest application response
+            await sendMail(dataEmployer);
+            await sendMail(dataJobSeeker);
             setApplying(true);
             await getApplication(params.id);
             const hasApplied = application && application.success;
             setApplied(hasApplied);
             localStorage.setItem(params.id, "true");
             setApplying(false);
-
+            toast.success("Application successful!!");
             // Update the state accordingly
 
         }
@@ -155,6 +162,7 @@ export default function Job() {
             </div>
         );
     } else {
+        
         return (
             <div className="container my-3 d-flex justify-content-center flex-column align-items-center">
                 <div className="text-body-secondary my-2">
@@ -167,7 +175,7 @@ export default function Job() {
                             <p className="card-text">
                                 <h5>Requirements</h5>
                                 {job.response.post.requirements}
-                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero magni, illum nobis ducimus quia doloribus laudantium, consequuntur fugit facilis commodi animi perspiciatis mollitia quasi adipisci numquam ipsum voluptatum ex. Dolorem atque quas cum repellendus omnis accusamus harum corrupti consequuntur laboriosam, voluptatibus odio assumenda! Temporibus tempora totam vel dolorem, dolores voluptatum! Suscipit doloremque repellendus adipisci tenetur reprehenderit nihil maxime deleniti enim molestias. Natus ullam ipsa nam earum quis soluta dicta asperiores atque fugiat? Beatae laborum ratione voluptas ducimus deleniti veritatis obcaecati vitae natus eos, dolores ullam voluptates, dolor inventore! A amet reprehenderit unde esse quibusdam, ex dolores error repudiandae ducimus rem.
+                                {/* Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero magni, illum nobis ducimus quia doloribus laudantium, consequuntur fugit facilis commodi animi perspiciatis mollitia quasi adipisci numquam ipsum voluptatum ex. Dolorem atque quas cum repellendus omnis accusamus harum corrupti consequuntur laboriosam, voluptatibus odio assumenda! Temporibus tempora totam vel dolorem, dolores voluptatum! Suscipit doloremque repellendus adipisci tenetur reprehenderit nihil maxime deleniti enim molestias. Natus ullam ipsa nam earum quis soluta dicta asperiores atque fugiat? Beatae laborum ratione voluptas ducimus deleniti veritatis obcaecati vitae natus eos, dolores ullam voluptates, dolor inventore! A amet reprehenderit unde esse quibusdam, ex dolores error repudiandae ducimus rem. */}
 
                                 <br />
                                 <strong>Skills Required:</strong> {job.response.post.skills_required.join(", ")}
@@ -194,6 +202,7 @@ export default function Job() {
                             </button>                        </div>
                     </div>
                 </div>
+                <ToastContainer position="top-center" />
             </div>
         );
     }

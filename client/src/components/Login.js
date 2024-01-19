@@ -45,6 +45,7 @@ export default function Login() {
 
         if (responseJobSeeker) {
             if (responseJobSeeker.success) {
+                
                 toast.success("Logged in Successfully");
                 localStorage.setItem("auth-token", responseJobSeeker.authtoken);
                 

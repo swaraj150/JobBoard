@@ -28,7 +28,7 @@ const MyModal = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">
-                JobSeeker Profile
+                User Profile
               </h1>
               <button
                 type="button"

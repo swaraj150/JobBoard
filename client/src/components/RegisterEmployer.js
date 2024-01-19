@@ -40,10 +40,9 @@ export default function RegisterEmployer() {
     useEffect(() => {
         console.log("from register: ", responseEmployer);
         if (responseEmployer && responseEmployer.success) {
+            
             localStorage.setItem("auth-token", responseEmployer.authtoken);
-            // if(localStorage.getItem("auth-token")){
-            //     window.location.href = "/quizlist";
-            // } 
+            
         }
 
     }, [responseEmployer]);
@@ -51,7 +50,7 @@ export default function RegisterEmployer() {
     return (
         <div>
             <div className="container my-3 d-flex justify-content-center">
-                <form onSubmit={handlesubmit} ref={myform} className="shadow p-5 rounded-lg  col-md-6">
+                <form onSubmit={handlesubmit} ref={myform} className="shadow p-5 rounded-lg bg-light  col-md-6">
                     <div className="mb-3">
                         <label htmlFor="exampleFormControlTextarea1" className="form-label">Name</label>
                         <input className="form-control" id="exampleFormControlTextarea1" name="name" onChange={handleChange} required />

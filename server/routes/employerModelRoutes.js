@@ -86,6 +86,8 @@ router.get("/getuser", fetchUser, async (req, res) => {
         const userid = req.user.id;
         const user = await Employer.findById(userid).select("-password");
         res.send(user);
+        // console.log(user)
+        // console.log("in get employer")
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server error")

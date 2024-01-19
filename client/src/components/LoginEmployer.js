@@ -37,6 +37,7 @@ export default function LoginEmployer() {
 
         if (responseEmployer) {
             if(responseEmployer.success){
+                
                 toast.success("Logged in Successfully");
     
                 localStorage.setItem("auth-token", responseEmployer.authtoken);

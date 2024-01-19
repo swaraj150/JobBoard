@@ -94,7 +94,19 @@ export default function CreatePost() {
       await createJob(formData)
 
     }
-    myform.current.reset();
+    if (myform.current) {
+      myform.current.reset();
+      setFormData({
+        title: "",
+        description: "",
+        requirements: "",
+        skills_required: [],
+        openings: 1,
+        income: "",
+        location: "",
+      });
+      console.log("Form reset");
+    }
     console.log("Form submitted:", formData);
     // Redirect to the desired page after creating the post (e.g., job list)
   };

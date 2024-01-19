@@ -69,8 +69,8 @@ export const JobProvider = ({ children }) => {
       const res = await axios.get(`http://localhost:80/api/job/getpost/${id}`, {
         headers: headers
       });
-      setJob({ response: res.data, success: true })
       console.log("Job retrieval success", res.data);
+      setJob({ response: res.data, success: true })
     } catch (error) {
       if (error.response) {
         setJob({ response: error.response.data, success: false });
