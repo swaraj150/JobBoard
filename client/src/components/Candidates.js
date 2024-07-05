@@ -113,117 +113,129 @@ const Candidates = () => {
   }
   return (
     <div className="container mt-4">
-      <h2>Candidates</h2>
-      <table className="table table-bordered my-3">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Skills</th>
-            <th>Status</th>
-            <th>Job Title</th>
-            <th>Interested ?</th>
-          </tr>
-        </thead>
-        <tbody>
-          {candidates.map((candidate) => (
+      {candidates.length==0 ? (
+        <>
+          <h2>
+            You don't have any candidates yet!!
+          </h2>
+        </>
+      ):(
+        <>
+        
+          <h2>Candidates</h2>
+          <table className="table table-bordered my-3">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Skills</th>
+                <th>Status</th>
+                <th>Job Title</th>
+                <th>Interested ?</th>
+              </tr>
+            </thead>
+            <tbody>
+              {candidates.map((candidate) => (
 
 
-            <tr key={candidate.id}>
-              <td>{candidate.name}</td>
-              <td>{candidate.email}</td>
-              <td>{candidate.skills.join(", ")}</td>
-              <td>{candidate.status}</td>
-              <td>{candidate.jobTitle}</td>
-              {/* <td>
-                {candidate.status === "pending" && (
-                  <>
-                    <button
-                      className={`btn btn-light btn-sm ${candidate.status==="accepted" ? "disabled" : ""}`}
-                      onClick={() => handleAccept(candidate.id)}
-                      disabled={candidate.accepted}
-                    >
-                      ✓
-                    </button>
-                    {" "}
-                    <button
-                      className={`btn btn-light btn-sm ${candidate.status==="rejected" ? "disabled" : ""}`}
-                      onClick={() => handleReject(candidate.id)}
-                      disabled={candidate.rejected}
-                    >
+                <tr key={candidate.id}>
+                  <td>{candidate.name}</td>
+                  <td>{candidate.email}</td>
+                  <td>{candidate.skills.join(", ")}</td>
+                  <td>{candidate.status}</td>
+                  <td>{candidate.jobTitle}</td>
+                  {/* <td>
+                    {candidate.status === "pending" && (
+                      <>
+                        <button
+                          className={`btn btn-light btn-sm ${candidate.status==="accepted" ? "disabled" : ""}`}
+                          onClick={() => handleAccept(candidate.id)}
+                          disabled={candidate.accepted}
+                        >
+                          ✓
+                        </button>
+                        {" "}
+                        <button
+                          className={`btn btn-light btn-sm ${candidate.status==="rejected" ? "disabled" : ""}`}
+                          onClick={() => handleReject(candidate.id)}
+                          disabled={candidate.rejected}
+                        >
+                          ✗
+                        </button>
+                      </>
+                    )}
+                    {candidate.status === "accepted" && (
+                      <>
+                      <button className="btn btn-success btn-sm" disabled >
+                        ✓
+                      </button>
+                      {" "}
+                      <button className="btn btn-danger btn-sm" onClick={() => handleReject(candidate.id)}>
                       ✗
                     </button>
-                  </>
-                )}
-                {candidate.status === "accepted" && (
-                  <>
-                  <button className="btn btn-success btn-sm" disabled >
-                    ✓
-                  </button>
-                  {" "}
-                  <button className="btn btn-danger btn-sm" onClick={() => handleReject(candidate.id)}>
-                  ✗
-                </button>
-                  
-                  </>
-                )}
-                {candidate.status === "rejected" && (
-                   <>
-                   <button className="btn btn-success btn-sm" onClick={() => handleAccept(candidate.id)} >
-                     ✓
-                   </button>
-                   {" "}
-                   <button className="btn btn-danger btn-sm" disabled>
-                   ✗
-                 </button>
-                   
-                   </>
-                )}
-              </td> */}
-              <td>
-                {candidate.status === "pending" && (
-                  <>
-                    <button
-                      className={`btn btn-light btn-sm ${candidate.status === "accepted" ? "disabled" : ""}`}
-                      onClick={() => handleAccept(candidate.id)}
-                      disabled={candidate.accepted}
-                    >
-                      ✓
-                    </button>{" "}
-                    <button
-                      className={`btn btn-light btn-sm ${candidate.status === "rejected" ? "disabled" : ""}`}
-                      onClick={() => handleReject(candidate.id)}
-                      disabled={candidate.rejected}
-                    >
+                      
+                      </>
+                    )}
+                    {candidate.status === "rejected" && (
+                      <>
+                      <button className="btn btn-success btn-sm" onClick={() => handleAccept(candidate.id)} >
+                        ✓
+                      </button>
+                      {" "}
+                      <button className="btn btn-danger btn-sm" disabled>
                       ✗
                     </button>
-                  </>
-                )}
-                {candidate.status === "accepted" && (
-                  <>
-                    <button className="btn btn-success btn-sm" disabled>
-                      ✓
-                    </button>{" "}
-                    <button className="btn btn-danger btn-sm" onClick={() => handleReject(candidate.id)}>
-                      ✗
-                    </button>
-                  </>
-                )}
-                {candidate.status === "rejected" && (
-                  <>
-                    <button className="btn btn-success btn-sm" onClick={() => handleAccept(candidate.id)}>
-                      ✓
-                    </button>{" "}
-                    <button className="btn btn-danger btn-sm" disabled>
-                      ✗
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                      
+                      </>
+                    )}
+                  </td> */}
+                  <td>
+                    {candidate.status === "pending" && (
+                      <>
+                        <button
+                          className={`btn btn-light btn-sm ${candidate.status === "accepted" ? "disabled" : ""}`}
+                          onClick={() => handleAccept(candidate.id)}
+                          disabled={candidate.accepted}
+                        >
+                          ✓
+                        </button>{" "}
+                        <button
+                          className={`btn btn-light btn-sm ${candidate.status === "rejected" ? "disabled" : ""}`}
+                          onClick={() => handleReject(candidate.id)}
+                          disabled={candidate.rejected}
+                        >
+                          ✗
+                        </button>
+                      </>
+                    )}
+                    {candidate.status === "accepted" && (
+                      <>
+                        <button className="btn btn-success btn-sm" disabled>
+                          ✓
+                        </button>{" "}
+                        <button className="btn btn-danger btn-sm" onClick={() => handleReject(candidate.id)}>
+                          ✗
+                        </button>
+                      </>
+                    )}
+                    {candidate.status === "rejected" && (
+                      <>
+                        <button className="btn btn-success btn-sm" onClick={() => handleAccept(candidate.id)}>
+                          ✓
+                        </button>{" "}
+                        <button className="btn btn-danger btn-sm" disabled>
+                          ✗
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+
+      )}
     </div>
   );
   // else if(candidates.length==0) {

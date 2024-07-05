@@ -16,5 +16,5 @@ app.use("/api/utility",require("./routes/utilityRoutes"));
 
 
 app.listen(port,()=>{
-    console.log(`Bank app listening on port at http://localhost:80`);
+    console.log(`Job app listening on port at http://localhost:80`);
 });

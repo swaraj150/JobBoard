@@ -10,6 +10,16 @@ const JobSearchPage = () => {
         location: '',
         title: ''
     });
+
+    const placeholders={
+        skills_required:"skills",
+        companyName:"company",
+        industry:"industry",
+        location:"location",
+        title:"title",
+    }
+
+
     const { search, searchResponse } = useJob();
 
     const [selectedRadio, setSelectedRadio] = useState('skills_required');
@@ -117,7 +127,7 @@ const JobSearchPage = () => {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder={`Search by ${selectedRadio}`}
+                            placeholder={`Search by ${placeholders[selectedRadio]}`}
                             value={preferences[selectedRadio]}
                             onChange={(e) => setPreferences({ ...preferences, [selectedRadio]: e.target.value })}
                         />
