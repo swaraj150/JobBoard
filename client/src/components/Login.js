@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Login() {
     let navigate = useNavigate();
     const myform = useRef(null);
-    const { responseJobSeeker, checkJobSeekerAuth,fetchRole } = useAuth();
+    const { responseJobSeeker, checkJobSeekerAuth } = useAuth();
     const [cred, setCred] = useState({ email: "", password: "" });
     const { showalert } = useRegister();
 

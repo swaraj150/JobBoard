@@ -18,3 +18,4 @@ app.use("/api/utility",require("./routes/utilityRoutes"));
 app.listen(port,()=>{
     console.log(`Job app listening on port at http://localhost:80`);
 });
+// https://jobboard-backend-wynl.onrender.com

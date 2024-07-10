@@ -113,7 +113,7 @@ const Candidates = () => {
   }
   return (
     <div className="container mt-4">
-      {candidates.length==0 ? (
+      {candidates.length===0 ? (
         <>
           <h2>
             You don't have any candidates yet!!

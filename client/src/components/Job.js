@@ -196,9 +196,9 @@ export default function Job() {
                             <button
                                 className="btn btn-primary mt-3"
                                 onClick={handleApply}
-                                disabled={applying || localStorage.getItem(params.id) == "true"}
+                                disabled={applying || localStorage.getItem(params.id) === "true"}
                             >
-                                {(applying ? "Applying" : (localStorage.getItem(params.id) == "true" || applied ? "Applied" : "Apply"))}
+                                {(applying ? "Applying" : (localStorage.getItem(params.id) === "true" || applied ? "Applied" : "Apply"))}
                             </button>                        </div>
                     </div>
                 </div>

@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useJob } from "../Context/JobState";
 import { useParams } from 'react-router-dom';
-import { useAuth } from "../Context/AuthState";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocation } from '@fortawesome/free-solid-svg-icons';
 
-import axios from "axios";
 
 export default function EmployerPost() {
-    const { job, getJob, sendMail } = useJob();
-    const { userJobSeeker, getUserJobSeeker } = useAuth();
+    const { job, getJob } = useJob();
+    // const { userJobSeeker, getUserJobSeeker } = useAuth();
 
     const params = useParams();
-
-
-
-
-
-
-
-
-
     const fetchData = async () => {
         // console.log("Before getJob");
         await getJob(params.id);

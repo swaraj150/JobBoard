@@ -11,7 +11,7 @@ export default function Navbar(props) {
   const [navType, setNavType] = useState("JOBSEEKER");
   const location = useLocation();
   const navigate = useNavigate();
-  const { userJobSeeker, getUserJobSeeker, getUserEmployer, role, fetchRole } = useAuth();
+  const { getUserJobSeeker, getUserEmployer, role, fetchRole } = useAuth();
   const handleNavTypeChange = (newNavType) => {
     setNavType(newNavType);
     navigate('/');
@@ -138,7 +138,7 @@ export default function Navbar(props) {
                   : null 
             }
             
-            {navType == "EMPLOYER" && localStorage.getItem("auth-token") && role && role.role=="employer" &&(
+            {navType === "EMPLOYER" && localStorage.getItem("auth-token") && role && role.role==="employer" &&(
               <>
                 <li className="nav-item">
                   <Link

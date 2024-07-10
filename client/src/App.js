@@ -5,7 +5,6 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { RegisterProvider } from './Context/RegisterState';
 import { JobProvider } from './Context/JobState';
 import HomeEmployer from './components/HomeEmployer';
-import Home from './components/Home';
 import RegisterEmployer from './components/RegisterEmployer';
 import Register from './components/Register';
 import LoginEmployer from './components/LoginEmployer';
@@ -14,14 +13,10 @@ import Job from './components/Job';
 import JobSeekerApplications from './components/JobSeekerApplications';
 import CreatePost from './components/CreatePost';
 import JobSearchPage from './components/JobSearchPage';
-import Alert from './components/Alert';
 import EmployerPosts from './components/EmployerPosts';
 import EmployerPost from './components/EmployerPost';
 import Candidates from './components/Candidates';
 function App() {
-  // window.addEventListener('beforeunload', function(event) {
-  //   localStorage.clear();
-  // });
   return (
     <>
       <RegisterProvider>
@@ -30,16 +25,9 @@ function App() {
 
             <BrowserRouter>
               <Navbar title="Job Board" aboutText="About us" />
-              {/* <div className="container">
-                <div className="alert-placeholder">
-                  <Alert />
-                </div>
-              </div> */}
-
               <div className="container">
                 <Routes>
                   <Route exact path="/employer" element={<HomeEmployer />} />
-                  {/* <Route  exact path="/jobseeker" element={<Home/>}/> */}
                   <Route exact path="/" element={<JobSearchPage />} />
                   <Route exact path="/employer/register" element={<RegisterEmployer />} />
                   <Route exact path="/employer/create" element={<CreatePost />} />
