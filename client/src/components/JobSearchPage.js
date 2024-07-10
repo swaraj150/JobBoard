@@ -33,14 +33,14 @@ const JobSearchPage = () => {
     };
 
 
-    const openJobModal = (job) => {
-        // Implement your modal logic here
-        console.log('Open modal for job:', job);
-    };
+    // const openJobModal = (job) => {
+    //     // Implement your modal logic here
+    //     console.log('Open modal for job:', job);
+    // };
 
-    const truncateDescription = (description, maxLength) => {
-        return description.length > maxLength ? description.substring(0, maxLength) + '...' : description;
-    };
+    // const truncateDescription = (description, maxLength) => {
+    //     return description.length > maxLength ? description.substring(0, maxLength) + '...' : description;
+    // };
 
     useEffect(() => {
         handleSearch(); // You may want to perform an initial search when the component mounts
