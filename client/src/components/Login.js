@@ -41,21 +41,16 @@ export default function Login() {
     }
 
     useEffect(() => {
-        console.log("from Login: ", responseJobSeeker);
 
         if (responseJobSeeker) {
             if (responseJobSeeker.success) {
                 
                 toast.success("Logged in Successfully");
-                localStorage.setItem("auth-token", responseJobSeeker.authtoken);
-                
-                showalert("Logged in Successfully", "success");
-                
+                localStorage.setItem("auth-token", responseJobSeeker.authtoken);                
                 if (localStorage.getItem("auth-token")) {
                     navigate("/");
                 }
             } else {
-                showalert("Something went wrong", "danger");
                 toast.error(responseJobSeeker.error);
             }
         }

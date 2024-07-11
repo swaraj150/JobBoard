@@ -3,6 +3,7 @@ import axios from "axios"
 
 const JobContext = createContext();
 export const JobProvider = ({ children }) => {
+  const BASE_URL=process.env.REACT_APP_BASE_URL || "http://localhost:80";
   const [response, setResponse] = useState(null);
   const createJob = async (data) => {
     try {
@@ -10,7 +11,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.post("http://localhost:80/api/job/create", data, {
+      const res = await axios.post(`${BASE_URL}/api/job/create`, data, {
         headers: headers
       });
       setResponse(res.data)
@@ -38,7 +39,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
 
       }
-      const res = await axios.get("http://localhost:80/api/job/getallpost", {
+      const res = await axios.get(`${BASE_URL}/api/job/getallpost`, {
         headers: headers
       });
       setJobList({ response: res.data, success: true })
@@ -59,23 +60,31 @@ export const JobProvider = ({ children }) => {
       }
     }
   }
-  const [job, setJob] = useState(null);
-  const getJob = async (id) => {
+  const [job, setJob] = useState({response:null,success:false});
+  const getJob = async (id,signal) => {
     try {
       const headers = {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.get(`http://localhost:80/api/job/getpost/${id}`, {
-        headers: headers
+      const res = await axios.get(`${BASE_URL}/api/job/getpost/${id}`, {
+        headers: headers,
+        signal:signal
       });
       console.log("Job retrieval success", res.data);
       setJob({ response: res.data, success: true })
+      return { response: res.data, success: true };
     } catch (error) {
-      if (error.response) {
+      if (axios.isCancel(error)) {
+        console.log('Request canceled:', error.message);
+        return { response: null, success: false, canceled: true };
+      }
+      else if (error.response) {
         setJob({ response: error.response.data, success: false });
+        
         console.log("Job retrieval failed", error.response.data);
         console.error("Job retrieval failed with status code", error.response.status);
+        return { response: error.response.data, success: false}
       } else if (error.request) {
         console.error("No response received from the server");
       } else {
@@ -90,7 +99,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.get("http://localhost:80/api/job/getuserpost", {
+      const res = await axios.get(`${BASE_URL}/api/job/getuserpost`, {
         headers: headers
       });
       setMyUserJob({ response: res.data, success: true })
@@ -118,7 +127,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.put("http://localhost:80/api/jobseeker/add-application", data, { headers: headers });
+      const res = await axios.put(`${BASE_URL}/api/jobseeker/add-application`, data, { headers: headers });
       console.log(res.data);
       if (res.data.success) setApplySuccess(true);
       else setApplySuccess(false)
@@ -142,7 +151,7 @@ export const JobProvider = ({ children }) => {
   }
   const sendMail = async (data) => {
     try {
-      const response = await axios.post('http://localhost:80/api/utility/send-mail', data)
+      const response = await axios.post(`${BASE_URL}/api/utility/send-mail`, data)
       console.log(response.data);
     } catch (error) {
       if (error.response) {
@@ -168,7 +177,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const response = await axios.get(`http://localhost:80/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
+      const response = await axios.get(`${BASE_URL}/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
       setApplication(response.data);
       console.log("response application ", response.data);
     } catch (error) {
@@ -206,7 +215,7 @@ export const JobProvider = ({ children }) => {
         .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
         .join('&');
   
-      const response = await axios.get(`http://localhost:80/api/job/search?${queryString}`);
+      const response = await axios.get(`${BASE_URL}/api/job/search?${queryString}`);
       setSearchResponse(response.data);
       console.log("response application ", response.data);
     } catch (error) {
@@ -233,7 +242,7 @@ export const JobProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const res = await axios.put("http://localhost:80/api/job/update-status", data, { headers: headers });
+      const res = await axios.put(`${BASE_URL}/api/job/update-status`, data, { headers: headers });
       console.log(res.data);
       if (res.data.success) setUpdateStatus(res.data);
       

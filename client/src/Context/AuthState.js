@@ -3,10 +3,11 @@ import axios from "axios"
 
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
+  const BASE_URL=process.env.REACT_APP_BASE_URL || "http://localhost:80";
   const [responseEmployer, setResponseEmployer] = useState(null);
   const checkEmployerAuth = async (credToCheck) => {
     try {
-      const res = await axios.post("http://localhost:80/api/employer/login", credToCheck);
+      const res = await axios.post(`${BASE_URL}/api/employer/login`, credToCheck);
       setResponseEmployer(res.data)
       // if(res.data.success){
       //   localStorage.setItem("user","EMPLOYER");
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   const [responseJobSeeker, setResponseJobSeeker] = useState(null);
   const checkJobSeekerAuth = async (credToCheck) => {
     try {
-      const res = await axios.post("http://localhost:80/api/jobseeker/login", credToCheck);
+      const res = await axios.post(`${BASE_URL}/api/jobseeker/login`, credToCheck);
       setResponseJobSeeker(res.data)
       // if(res.data.success){
       //   localStorage.setItem("user","JOBSEEKER");
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
   const getUserEmployer = async () => {
     try {
-      const response = await fetch('http://localhost:80/api/employer/getuser', {
+      const response = await fetch(`${BASE_URL}/api/employer/getuser`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -83,11 +84,12 @@ export const AuthProvider = ({ children }) => {
   const [userJobSeeker, setUserJobSeeker] = useState({});
   const getUserJobSeeker = async () => {
     try {
-      const response = await fetch('http://localhost:80/api/jobseeker/getuser', {
+      const response = await fetch(`${BASE_URL}/api/jobseeker/getuser`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'auth-token': localStorage.getItem('auth-token'),
+          
         },
       });
 
@@ -109,7 +111,7 @@ export const AuthProvider = ({ children }) => {
   const getEmployerById = async (id) => {
     try {
       console.log("entered in fetchEmployer")
-      const response = await fetch(`http://localhost:80/api/employer/getuser/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/employer/getuser/${id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +141,7 @@ export const AuthProvider = ({ children }) => {
         'Content-Type': 'application/json',
         'auth-token': localStorage.getItem("auth-token")
       }
-      const response = await axios.get("http://localhost:80/api/utility/getrole", { headers: headers });
+      const response = await axios.get(`${BASE_URL}/api/utility/getrole`, { headers: headers });
       if (response.data.success) {
         setRole(response.data);
       }

@@ -4,9 +4,10 @@ import axios from "axios"
 const RegisterContext = createContext();
 export const RegisterProvider=({children})=>{
     const [responseEmployer,setResponseEmployer]=useState(null);
+    const BASE_URL=process.env.REACT_APP_BASE_URL || "http://localhost:80";
     const registerEmployerUser=async (data)=>{
         try {
-            const res = await axios.post("http://localhost:80/api/employer/register", data);
+            const res = await axios.post(`${BASE_URL}/api/employer/register`, data);
             setResponseEmployer(res.data)
             console.log("Registration success", res.data);
           } catch (error) {
@@ -30,7 +31,7 @@ export const RegisterProvider=({children})=>{
     const [responseJobSeeker,setResponseJobSeeker]=useState(null);
     const registerJobSeekerUser=async (data)=>{
         try {
-            const res = await axios.post("http://localhost:80/api/jobseeker/register", data);
+            const res = await axios.post(`${BASE_URL}/api/jobseeker/register`, data);
             setResponseJobSeeker(res.data)
             console.log("Registration success", res.data);
           } catch (error) {

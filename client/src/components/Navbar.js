@@ -19,11 +19,12 @@ export default function Navbar(props) {
 
 
 
-  useEffect(() => {
-    fetchRole();
-  });
+  // useEffect(() => {
+  //   fetchRole();
+  // });
 
   useEffect(() => {
+    fetchRole();
     setNavType(location.pathname.startsWith('/employer') ? 'EMPLOYER' : 'JOBSEEKER');
   }, [location.pathname]);
 
