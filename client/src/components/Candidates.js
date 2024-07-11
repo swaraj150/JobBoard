@@ -61,7 +61,7 @@ const Candidates = () => {
       `
     }
 
-    console.log(result.name);
+    // console.log(result.name);
     const [candidateId, postId] = id1.split('_');
     await updateStatusfun({ status: "accepted", p_id: postId, j_id: candidateId })
     const updatedCandidates = candidates.map(candidate => {

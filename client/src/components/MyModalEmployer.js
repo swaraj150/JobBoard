@@ -10,7 +10,7 @@ const MyModalEmployer = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    console.log("Logging out...");
+    // console.log("Logging out...");
     localStorage.removeItem("auth-token");
     window.location.href = "/employer";
     navigate("/employer");

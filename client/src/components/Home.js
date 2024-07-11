@@ -8,7 +8,7 @@ export default function Home() {
   const [selectedJob, setSelectedJob] = useState(null);
 
   useEffect(() => {
-    console.log("useEffect is running");
+    // console.log("useEffect is running");
     getAllJob();
   }, []);
 

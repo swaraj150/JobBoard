@@ -22,9 +22,9 @@ export default function EmployerPost() {
     };
     useEffect(() => {
 
-        console.log("Before fetchData");
+        // console.log("Before fetchData");
         fetchData();
-        console.log("After fetchData");
+        // console.log("After fetchData");
 
     }, [params.id]);
 

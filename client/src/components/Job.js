@@ -39,9 +39,9 @@ export default function Job() {
                 // console.log("application retrieval failed", { error: error.response.data, success: false });
                 // console.error("application retrieval failed with status code", error.response.status);
             } else if (error.request) {
-                // console.error("No response received from the server");
+                console.error("No response received from the server");
             } else {
-                // console.error("Error setting up the request", error.message);
+                console.error("Error setting up the request", error.message);
             }
         }
     }
@@ -117,16 +117,15 @@ export default function Job() {
         // debouncedFetchData(controller.signal);
         return () => {
             controller.abort()
-            console.log("aborting", controller.signal.aborted)
+            // console.log("aborting", controller.signal.aborted)
             setJobPost(null);
-            // debug this
         };
 
     }, []);
 
-    useEffect(()=>{
-        console.log("jobPost: ",jobPost)
-    },[jobPost])
+    // useEffect(()=>{
+    //     console.log("jobPost: ",jobPost)
+    // },[jobPost])
 
 
 
@@ -134,7 +133,7 @@ export default function Job() {
 
         if (!userJobSeeker) {
             toast.error("You'd have to login to apply");
-            console.log("user not fetched yet")
+            // console.log("user not fetched yet")
         }
         else {
             const dataEmployer = {
@@ -188,7 +187,7 @@ export default function Job() {
     return (
         <div className="container my-3 d-flex justify-content-center flex-column align-items-center">
             {loading || !jobPost || jobPost.success === false? (
-                <p>{loading ? "Loading..." : "You'd have to Login"}</p>
+                <p>{loading ? "Loading..." : "You'd have to login to see posts"}</p>
             ) : (
                 <>
                 

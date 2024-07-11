@@ -10,9 +10,8 @@ export default function HomeEmployer() {
           <p className="lead">Explore talented candidates and find the perfect fit for your team.</p>
           <Link to="/employer/applicants" className="btn btn-primary btn-lg">Explore Candidates</Link>
         </div>
-        <div className="col-lg-6">
-          {/* You can add an image or any other content here */}
-        </div>
+        {/* <div className="col-lg-6">
+        </div> */}
       </div>
     </div>
   );

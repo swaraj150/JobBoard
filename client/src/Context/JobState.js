@@ -15,7 +15,7 @@ export const JobProvider = ({ children }) => {
         headers: headers
       });
       setResponse(res.data)
-      console.log("Job creation success", res.data);
+      // console.log("Job creation success", res.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -43,7 +43,7 @@ export const JobProvider = ({ children }) => {
         headers: headers
       });
       setJobList({ response: res.data, success: true })
-      console.log("Job retrieval success", res.data);
+      // console.log("Job retrieval success", res.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -71,7 +71,7 @@ export const JobProvider = ({ children }) => {
         headers: headers,
         signal:signal
       });
-      console.log("Job retrieval success", res.data);
+      // console.log("Job retrieval success", res.data);
       setJob({ response: res.data, success: true })
       return { response: res.data, success: true };
     } catch (error) {
@@ -128,7 +128,7 @@ export const JobProvider = ({ children }) => {
         'auth-token': localStorage.getItem("auth-token")
       }
       const res = await axios.put(`${BASE_URL}/api/jobseeker/add-application`, data, { headers: headers });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.success) setApplySuccess(true);
       else setApplySuccess(false)
 
@@ -151,8 +151,8 @@ export const JobProvider = ({ children }) => {
   }
   const sendMail = async (data) => {
     try {
-      const response = await axios.post(`${BASE_URL}/api/utility/send-mail`, data)
-      console.log(response.data);
+      await axios.post(`${BASE_URL}/api/utility/send-mail`, data)
+      // console.log(response.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
@@ -179,14 +179,14 @@ export const JobProvider = ({ children }) => {
       }
       const response = await axios.get(`${BASE_URL}/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
       setApplication(response.data);
-      console.log("response application ", response.data);
+      // console.log("response application ", response.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         setApplication({ error: error.response.data, success: false });
-        console.log("application retrieval failed", { error: error.response.data, success: false });
-        console.error("application retrieval failed with status code", error.response.status);
+        // console.log("application retrieval failed", { error: error.response.data, success: false });
+        // console.error("application retrieval failed with status code", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
@@ -217,14 +217,14 @@ export const JobProvider = ({ children }) => {
   
       const response = await axios.get(`${BASE_URL}/api/job/search?${queryString}`);
       setSearchResponse(response.data);
-      console.log("response application ", response.data);
+      // console.log("response application ", response.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         setSearchResponse({ error: error.response.data, success: false });
-        console.log("application retrieval failed", { error: error.response.data, success: false });
-        console.error("application retrieval failed with status code", error.response.status);
+        // console.log("application retrieval failed", { error: error.response.data, success: false });
+        // console.error("application retrieval failed with status code", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
@@ -243,7 +243,7 @@ export const JobProvider = ({ children }) => {
         'auth-token': localStorage.getItem("auth-token")
       }
       const res = await axios.put(`${BASE_URL}/api/job/update-status`, data, { headers: headers });
-      console.log(res.data);
+      // console.log(res.data);
       if (res.data.success) setUpdateStatus(res.data);
       
 
@@ -253,8 +253,8 @@ export const JobProvider = ({ children }) => {
         // that falls out of the range of 2xx
         // setMyUserJob({error:error.response.data,success:false});
         setUpdateStatus(error.response)
-        console.log("status update failed", { error: error.response.data, success: false });
-        console.error("status update failed with status code", error.response.status);
+        // console.log("status update failed", { error: error.response.data, success: false });
+        // console.error("status update failed with status code", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");

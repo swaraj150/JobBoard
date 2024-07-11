@@ -12,14 +12,14 @@ export const AuthProvider = ({ children }) => {
       // if(res.data.success){
       //   localStorage.setItem("user","EMPLOYER");
       // }
-      console.log("Authentication success", res.data);
+      // console.log("Authentication success", res.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         setResponseEmployer(error.response.data);
-        console.log("Authentication failed", error.response.data);
-        console.error("Authentication failed with status code", error.response.status);
+        // console.log("Authentication failed", error.response.data);
+        // console.error("Authentication failed with status code", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
@@ -37,14 +37,14 @@ export const AuthProvider = ({ children }) => {
       // if(res.data.success){
       //   localStorage.setItem("user","JOBSEEKER");
       // }
-      console.log("Authentication success", res.data);
+      // console.log("Authentication success", res.data);
     } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         setResponseJobSeeker(error.response.data);
-        console.log("Authentication failed", error.response.data);
-        console.error("Authentication failed with status code", error.response.status);
+        // console.log("Authentication failed", error.response.data);
+        // console.error("Authentication failed with status code", error.response.status);
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 401) {
         // Handle unauthorized access
-        console.error('Unauthorized access');
+        // console.error('Unauthorized access');
         setUserEmployer(null);
         return;
       }
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 401) {
         // Handle unauthorized access
-        console.error('Unauthorized access');
+        // console.error('Unauthorized access');
         setUserJobSeeker(null);
         return;
       }
@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
   const [employer, setEmployer] = useState(null);
   const getEmployerById = async (id) => {
     try {
-      console.log("entered in fetchEmployer")
+      // console.log("entered in fetchEmployer")
       const response = await fetch(`${BASE_URL}/api/employer/getuser/${id}`, {
         method: 'GET',
         headers: {
@@ -121,7 +121,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 401) {
         // Handle unauthorized access
-        console.error('Unauthorized access');
+        // console.error('Unauthorized access');
         setEmployer(null);
         return;
       }

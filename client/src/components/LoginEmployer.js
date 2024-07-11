@@ -33,7 +33,7 @@ export default function LoginEmployer() {
     }
 
     useEffect(() => {
-        console.log("from Login: ", responseEmployer);
+        // console.log("from Login: ", responseEmployer);
 
         if (responseEmployer) {
             if(responseEmployer.success){

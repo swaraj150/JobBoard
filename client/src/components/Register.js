@@ -94,7 +94,7 @@ export default function Register() {
         { value: "Infrastructure as Code", label: "Infrastructure as Code" },
       ];
     useEffect(() => {
-        console.log("from register: ", responseJobSeeker);
+        // console.log("from register: ", responseJobSeeker);
         if (responseJobSeeker && responseJobSeeker.success) {
             localStorage.setItem("auth-token", responseJobSeeker.authtoken);
             showalert("Registered Succesfully","success");

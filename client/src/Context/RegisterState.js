@@ -9,14 +9,14 @@ export const RegisterProvider=({children})=>{
         try {
             const res = await axios.post(`${BASE_URL}/api/employer/register`, data);
             setResponseEmployer(res.data)
-            console.log("Registration success", res.data);
+            // console.log("Registration success", res.data);
           } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 setResponseEmployer(error.response.data);
-                console.log("Registration failed", error.response.data);
-                console.error("Registration failed with status code", error.response.status);
+                // console.log("Registration failed", error.response.data);
+                // console.error("Registration failed with status code", error.response.status);
               } else if (error.request) {
                 // The request was made but no response was received
                 console.error("No response received from the server");
@@ -33,14 +33,14 @@ export const RegisterProvider=({children})=>{
         try {
             const res = await axios.post(`${BASE_URL}/api/jobseeker/register`, data);
             setResponseJobSeeker(res.data)
-            console.log("Registration success", res.data);
+            // console.log("Registration success", res.data);
           } catch (error) {
             if (error.response) {
                 // The request was made and the server responded with a status code
                 // that falls out of the range of 2xx
                 setResponseJobSeeker(error.response.data);
-                console.log("Registration failed", error.response.data);
-                console.error("Registration failed with status code", error.response.status);
+                // console.log("Registration failed", error.response.data);
+                // console.error("Registration failed with status code", error.response.status);
               } else if (error.request) {
                 // The request was made but no response was received
                 console.error("No response received from the server");

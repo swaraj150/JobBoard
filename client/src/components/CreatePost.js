@@ -105,9 +105,9 @@ export default function CreatePost() {
         income: "",
         location: "",
       });
-      console.log("Form reset");
+      // console.log("Form reset");
     }
-    console.log("Form submitted:", formData);
+    // console.log("Form submitted:", formData);
     // Redirect to the desired page after creating the post (e.g., job list)
   };
   useEffect(()=>{

@@ -9,7 +9,7 @@ const MyModal = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    console.log("Logging out...");
+    // console.log("Logging out...");
     localStorage.clear();
     window.location.href = "/";
     navigate("/");
