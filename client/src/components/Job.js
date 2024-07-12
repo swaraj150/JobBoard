@@ -10,6 +10,7 @@ import axios from "axios";
 import debounce from 'lodash/debounce';
 
 export default function Job() {
+    const BASE_URL=process.env.REACT_APP_BASE_URL || "http://localhost:80";
     const { job, getJob, apply, sendMail } = useJob();
     const { userJobSeeker, getUserJobSeeker } = useAuth();
     const [applied, setApplied] = useState(false);
@@ -26,7 +27,7 @@ export default function Job() {
                 'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem("auth-token")
             }
-            const response = await axios.get(`http://localhost:80/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
+            const response = await axios.get(`${BASE_URL}/api/jobseeker/getapplication?jobId=${data}`, { headers: headers })
             setApplication(response.data);
             // console.log("response application ", response.data);
             if (response.data.success) {
@@ -54,7 +55,7 @@ export default function Job() {
                 'auth-token': localStorage.getItem("auth-token")
 
             }
-            const response = await axios.get(`http://localhost:80/api/jobseeker/getapplication?jobId=${params.id}`, { headers: headers })
+            const response = await axios.get(`${BASE_URL}/api/jobseeker/getapplication?jobId=${params.id}`, { headers: headers })
             setApplication(response.data);
             console.log("response application ", response.data);
             if (localStorage.getItem(params.id) == null) {

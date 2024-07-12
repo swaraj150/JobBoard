@@ -4,6 +4,7 @@ import axios from "axios";
 const JobSeekerApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BASE_URL=process.env.REACT_APP_BASE_URL || "http://localhost:80";
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -13,7 +14,7 @@ const JobSeekerApplications = () => {
           'auth-token': localStorage.getItem('auth-token'),
         };
 
-        const response = await axios.get("http://localhost:80/api/jobseeker/applications", {
+        const response = await axios.get(`${BASE_URL}/api/jobseeker/applications`, {
           headers: headers,
         });
 
