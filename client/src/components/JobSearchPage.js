@@ -162,7 +162,7 @@ const JobSearchPage = () => {
                             )}
                         </div>
                     ) : (
-                        <p>Search failed. Please try again later.</p>
+                        <p>Loading Job Posts For You..</p>
                     )}
                 
                 </div>
