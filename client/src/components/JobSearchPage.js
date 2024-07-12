@@ -49,11 +49,9 @@ const JobSearchPage = () => {
     return (
         <div className="container mt-5">
             <div className="row">
-                {/* Preferences Card */}
                 <div className="card shadow rounded-lg" style={{ width: "19rem", height: "20rem" }}>
                     <div className="card-body">
                         <h5 className="card-title">Preferences</h5>
-                        {/* Radio buttons for different search criteria */}
                         <div className="form-check">
                             <input
                                 className="form-check-input"
@@ -147,7 +145,7 @@ const JobSearchPage = () => {
                                             <div className="card shadow rounded-lg" style={{ width:"30rem", height:"15rem" }}>
                                                 <div className="card-body d-flex flex-column justify-content-center align-items-center ">
                                                     <h5 className="card-title">{job.title}</h5>
-                                                    <p className="card-text">{job.description} </p>
+                                                    <p className="card-text" style={{textAlign:"center"}}>{job.description} </p>
                                                     <Link to={`/jobseeker/job/${job._id}`} className="btn btn-primary" >
                                                         View Details
                                                     </Link>
