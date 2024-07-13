@@ -33,7 +33,14 @@ const JobSeekerSchema=new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:Job
         }
+    ],
+    savedPosts:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Job
+        }
     ]
+
 })
 // JobSeekerSchema.index({ "applications": 1 });
 const JobSeeker=mongoose.model('JobSeeker',JobSeekerSchema)

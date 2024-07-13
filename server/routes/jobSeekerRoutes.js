@@ -171,24 +171,89 @@ router.get("/getapplication", fetchUser, async (req, res) => {
 });
 
 router.get("/applications", fetchUser, async (req, res) => {
-    if (!req.user || !req.user.id) {
+    try{
+        if (!req.user || !req.user.id) {
         return res.status(401).send({ message: "User not authenticated", success: false });
+        }
+        if (req.user.role == "employer") {
+            return res.status(401).send({ message: "This is not an employer route", success: false });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found", success: false });
+        }
+        const applications = existingUser.applications;
+        const detailedApplications = await Promise.all(applications.map(async (applicationId) => {
+            const application = await Job.findById(applicationId);
+            const employer=await Employer.findById(application.employer);
+            return {application,employer};
+        }));
+        res.json({ success: true, applications: detailedApplications });
     }
-    if (req.user.role == "employer") {
-        return res.status(401).send({ message: "This is not an employer route", success: false });
+    catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server error");
     }
-    const existingUser = await JobSeeker.findById(req.user.id);
-    if (!existingUser) {
-        return res.status(404).send({ message: "User not found", success: false });
-    }
-    const applications = existingUser.applications;
-    const detailedApplications = await Promise.all(applications.map(async (applicationId) => {
-        const application = await Job.findById(applicationId);
-        const employer=await Employer.findById(application.employer);
-        return {application,employer};
-    }));
 
-    res.json({ success: true, applications: detailedApplications });
 });
 
+router.get("/getsaved",fetchUser,async(req,res)=>{
+    try{
+        if (!req.user || !req.user.id) {
+            return res.status(401).send({ message: "User not authenticated", success: false });
+        }
+        if (req.user.role == "employer") {
+            return res.status(401).send({ message: "This is not an employer route", success: false });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found", success: false });
+        }
+        const posts = existingUser.savedPosts;
+        const detailedPosts=await Promise.all(posts.map(async(postId)=>{
+            const post=await Job.findById(postId);
+            const employer=await Employer.findById(post.employer);
+            return {post,employer};
+        }));
+        res.json({success:true,saved:detailedPosts});
+    }
+    catch(error){
+        console.error(error.message);
+        res.status(500).send("Internal Server error");
+    }
+});
+
+
+router.put("/saveposts",fetchUser,async(req,res)=>{
+    try {
+        if (!req.user || !req.user.id) {
+            return res.status(401).send({ message: "User not authenticated", success: false });
+        }
+        if (req.user.role == "employer") {
+            return res.status(401).send({ message: "This is not an employer route", success: false });
+        }
+        const { jobId } = req.body;
+        if (!jobId) {
+            return res.status(401).send({ message: "post id not found", success: false });
+        }
+        const existingUser = await JobSeeker.findById(req.user.id);
+        const post = await Job.findById(jobId);
+
+        if (!existingUser) {
+            return res.status(404).send({ message: "User not found", success: false });
+        }
+        if (!post) {
+            return res.status(404).send({ message: "post not found", success: false });
+        }
+
+        const saved = new Set(existingUser.savedPosts);
+        saved.add(jobId);
+        await JobSeeker.findByIdAndUpdate(req.user.id, { $set: { savedPosts: Array.from(saved) } }, { new: true });
+        res.send({ message: "Post saved successfully", success: true })
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server error");
+    }
+});
 module.exports = router;
