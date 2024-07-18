@@ -1,6 +1,6 @@
 const mongoose=require("mongoose")
-const MONGOURI=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mycluster.ecabn2v.mongodb.net/jobBoard`
-// const MONGOURI="mongodb://127.0.0.1:27017/jobBoard"
+// const MONGOURI=`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@mycluster.ecabn2v.mongodb.net/jobBoard`
+const MONGOURI="mongodb://127.0.0.1:27017/jobBoard"
 
 const connectToMongo=()=>{
     mongoose.connect(MONGOURI);

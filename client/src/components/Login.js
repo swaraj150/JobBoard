@@ -17,6 +17,7 @@ export default function Login() {
         setCred((prevCred) => ({ ...prevCred, [name]: value }));
     };
 
+    
     const handlesubmit = async (e) => {
         e.preventDefault();
         const {email,password}=cred;
@@ -44,7 +45,6 @@ export default function Login() {
 
         if (responseJobSeeker) {
             if (responseJobSeeker.success) {
-                
                 toast.success("Logged in Successfully");
                 localStorage.setItem("auth-token", responseJobSeeker.authtoken);                
                 if (localStorage.getItem("auth-token")) {

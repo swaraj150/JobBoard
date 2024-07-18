@@ -47,10 +47,10 @@ const JobSearchPage = () => {
     }, []); // Empty dependency array to run the effect only once
 
     return (
-        <div className="container mt-5">
+        <div className="container-fluid mt-5">
             <div className="row">
-                <div className="card shadow rounded-lg" style={{ width: "19rem", height: "20rem" }}>
-                    <div className="card-body">
+                <div className="card shadow rounded-lg hp1">
+                    <div className="card-body hp2">
                         <h5 className="card-title">Preferences</h5>
                         <div className="form-check">
                             <input
@@ -142,7 +142,7 @@ const JobSearchPage = () => {
                                 <div>
                                     {searchResponse.jobs.map((job) => (
                                         <div key={job._id} className="col-md-4 mb-3 ">
-                                            <div className="card shadow rounded-lg" style={{ width:"30rem", height:"15rem" }}>
+                                            <div className="card shadow rounded-lg hp3">
                                                 <div className="card-body d-flex flex-column justify-content-center align-items-center ">
                                                     <h5 className="card-title">{job.title}</h5>
                                                     <p className="card-text" style={{textAlign:"center"}}>{job.description} </p>

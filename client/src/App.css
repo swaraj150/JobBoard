@@ -39,3 +39,29 @@
 .alert-placeholder {
   margin-bottom: "15px"; /* Adjust the margin as needed */
 }
+
+
+.hp1{
+  width:19rem;
+  height: 20rem;
+}
+.hp3{
+  width:30rem;
+  height: 15rem;
+}
+
+@media only screen and (max-width:450px) {
+  .hp1{
+    width: 60%;
+    height: 42%;
+    margin-bottom: 5%;
+    position: relative;
+    left: 18%;
+  }
+  .hp3{
+    width: 100%; 
+  }
+  .hp2{
+
+  }
+}

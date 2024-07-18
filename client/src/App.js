@@ -1,7 +1,7 @@
 import './App.css';
 import Navbar from './components/Navbar';
 import { AuthProvider } from './Context/AuthState';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, useNavigate } from 'react-router-dom';
 import { RegisterProvider } from './Context/RegisterState';
 import { JobProvider } from './Context/JobState';
 import HomeEmployer from './components/HomeEmployer';
@@ -16,7 +16,36 @@ import JobSearchPage from './components/JobSearchPage';
 import EmployerPosts from './components/EmployerPosts';
 import EmployerPost from './components/EmployerPost';
 import Candidates from './components/Candidates';
+import { useEffect } from 'react';
 function App() {
+  // const navigate=useNavigate();
+  const setupTokenExpirationCheck = () => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) return;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const expirationTime = payload.exp * 1000; // Convert to milliseconds
+    const currentTime = Date.now();
+
+    if (currentTime >= expirationTime) {
+      clearLocalStorageAndRedirect();
+    } else {
+      const timeUntilExpiration = expirationTime - currentTime;
+      setTimeout(clearLocalStorageAndRedirect, timeUntilExpiration);
+    }
+
+  }
+  function clearLocalStorageAndRedirect() {
+    localStorage.clear();
+    // Redirect to login page or perform other necessary actions
+    // window.location.href = "/";
+    // navigate("/");
+  }
+
+  useEffect(()=>{
+    clearLocalStorageAndRedirect();
+  },[])
+
   return (
     <>
       <RegisterProvider>
